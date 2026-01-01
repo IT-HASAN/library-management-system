@@ -6,7 +6,11 @@ import { loginUser } from '../../../../redux/slices/AuthenticationSlice';
 import './LoginForm.css';
 import type { User } from '../../../../models/User';
 
-export const LoginForm:React.FC = () => {
+interface LoginFormProps {
+  toggleRegister():void;
+}
+
+export const LoginForm:React.FC<LoginFormProps> = ({toggleRegister}) => {
 
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -52,7 +56,7 @@ export const LoginForm:React.FC = () => {
       <button className="login-form-submit" onClick={handleLoginUser}>Login</button>
       <p>
         Don't have an account?
-        <span className="login-form-register">Create one here.</span>
+        <span className="login-form-register" onClick={toggleRegister}>Create one here.</span>
       </p>
     </form>
   )

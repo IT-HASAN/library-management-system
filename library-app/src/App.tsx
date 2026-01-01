@@ -5,8 +5,6 @@ import HomePage from './pages/HomePage/HomePage';
 
 function App() {
 
-  const [displayLogin, setDisplayLogin] = useState<boolean>(true);
-
   const loggedInUser = useSelector((state:RootState) => state.authentication.loggedInUser);
 
   useEffect(() => {
@@ -15,7 +13,7 @@ function App() {
 
   return (
     <div>
-      <HomePage displayLogin={displayLogin} />
+      <HomePage />
     </div>
   )
 }
