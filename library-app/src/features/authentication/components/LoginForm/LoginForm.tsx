@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { type AppDispatch, type RootState } from '../../../../redux/ReduxStore';
-import { loginUser } from '../../../../redux/slices/AuthenticationSlice';
+import { loginUser, resetLoginError } from '../../../../redux/slices/AuthenticationSlice';
 
 import './LoginForm.css';
 import type { User } from '../../../../models/User';
@@ -28,10 +28,16 @@ export const LoginForm:React.FC<LoginFormProps> = ({toggleRegister}) => {
     }
   }
 
+  useEffect(() => {
+    return (() => {
+      dispatch(resetLoginError());
+    });
+  }, [dispatch])
+
   return (
     <form className="login-form">
       <h2>Please Login</h2>
-      {auth.error ? <p className="login-form-error">Username or password incorrect</p> : <></>}
+      {auth.loginError ? <p className="login-form-error">Username or password incorrect</p> : <></>}
       <div className="login-form-input-group">
         <h6>Email</h6>
         <input 
