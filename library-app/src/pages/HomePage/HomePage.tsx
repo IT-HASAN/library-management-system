@@ -3,15 +3,14 @@ import { LoginForm } from '../../features/authentication/components/LoginForm/Lo
 import type { User } from '../../models/User';
 
 interface HomePageProps {
-  displayLogin: boolean,
-  updateLoggedInUser(user:User):void
+  displayLogin: boolean
 }
 
 export default function HomePage(props:HomePageProps):JSX.Element {
   return (
     <div className="page">
       Home page
-      {props.displayLogin ? <LoginForm updateLoggedInUser={props.updateLoggedInUser}/> : <></>}
+      {props.displayLogin ? <LoginForm /> : <></>}
     </div>
   )
 }
