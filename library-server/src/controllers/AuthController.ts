@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { register, login } from '../services/UserService';
 import { IUser } from '../models/User';
-import { IUserModel } from '../daos/UserDao';
 import { InvalidUsernameOrPasswordError } from '../utils/CustomErrors';
 
 async function handleRegister(req:Request, res:Response) {
@@ -34,7 +33,7 @@ async function handleLogin(req:Request, res:Response) {
   const credentials = req.body;
 
   try {
-    const loggedIn:IUserModel = await login(credentials);
+    const loggedIn = await login(credentials);
 
     res.status(200).json({
       message: "User logged in successfully",
@@ -55,4 +54,4 @@ async function handleLogin(req:Request, res:Response) {
   }
 }
 
-export default {handleRegister, handleLogin};
+export default { handleRegister, handleLogin };

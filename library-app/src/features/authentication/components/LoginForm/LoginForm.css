@@ -10,7 +10,7 @@
 
 .login-form-error {
   margin-bottom: 16px;
-  color: #cb4c4e;
+  color: var(--form-error);
 }
 
 .login-form-input-group {

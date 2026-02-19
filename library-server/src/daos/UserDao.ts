@@ -1,11 +1,8 @@
-import mongoose, { Schema, Document } from 'mongoose';
-import { IUser } from '../models/User';
-
-export interface IUserModel extends IUser, Document {};
+import mongoose, { Schema } from 'mongoose';
 
 const UserSchema = new Schema (
   {
-    type: {type:String, required:true},
+    type: { type: String, required: true, enum: ['ADMIN', 'EMPLOYEE', 'PATRON'] },
     firstName: {type:String, required:true},
     lastName: {type:String, required:true},
     email: {type:String, required:true, unique:true},
@@ -16,4 +13,6 @@ const UserSchema = new Schema (
   }
 );
 
-export default mongoose.model<IUserModel>('User', UserSchema);
+const UserDao = mongoose.model('User', UserSchema as any);
+
+export default UserDao;
