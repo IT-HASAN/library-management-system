@@ -7,7 +7,7 @@ interface ModalSliceState {
 }
 
 const initialState:ModalSliceState = {
-  displayLogin: true,
+  displayLogin: false,
   displayLibraryCard: false,
   displayLoan: false
 }
