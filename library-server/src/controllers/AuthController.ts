@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { register, login } from '../services/UserService';
-import { IUser } from '../models/User';
+import { CreateIUser } from '../models/User';
 import { InvalidUsernameOrPasswordError } from '../utils/CustomErrors';
 
 async function handleRegister(req:Request, res:Response) {
-  const user:IUser = req.body;
+  const user:CreateIUser = req.body;
 
   try {
     const registeredUser = await register(user);

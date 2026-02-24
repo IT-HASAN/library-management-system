@@ -1,7 +1,7 @@
 import Joi, { ObjectSchema } from 'joi';
 
 import { NextFunction, Response, Request } from 'express';
-import { IUser } from '../models/User';
+import { CreateIUser, UpdateIUser } from '../models/User';
 
 export function ValidateSchema(schema: ObjectSchema, property:string) {
   return async (req:Request, res:Response, next:NextFunction) => {
@@ -25,7 +25,7 @@ export function ValidateSchema(schema: ObjectSchema, property:string) {
 
 export const Schemas = {
   user: {
-    create: Joi.object<IUser>({
+    create: Joi.object<CreateIUser>({
       type: Joi.string().valid('ADMIN', 'EMPLOYEE', 'PATRON').required(),
       firstName: Joi.string().required(),
       lastName: Joi.string().required(),
@@ -39,7 +39,7 @@ export const Schemas = {
     userId: Joi.object<{userId:string}>({
       userId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
     }),
-    update: Joi.object<IUser>({
+    update: Joi.object<UpdateIUser>({
       _id: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
       type: Joi.string().valid('ADMIN', 'EMPLOYEE', 'PATRON').required(),
       firstName: Joi.string().required(),

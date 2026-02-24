@@ -1,24 +1,30 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import { type User, type LoginUserPayload, type RegisterUserPayload  } from '../../models/User';
+import { type User, type LoginUserPayload, type RegisterUserPayload, type FetchUserPayload  } from '../../models/User';
 
 import axios from 'axios';
 
 interface AuthenticationSliceState {
   loggedInUser: User | undefined;
+  profileUser: User | undefined;
   loading: boolean;
   loginError: boolean;
   registerError: boolean;
+  userError: boolean;
   registerSuccess: boolean;
 }
 
 const initialState:AuthenticationSliceState = {
   loggedInUser: undefined,
+  profileUser: undefined,
   loading: false,
   loginError: false,
   registerError: false,
+  userError: false,
   registerSuccess: false
 }
+
+type ResetUser = FetchUserPayload['property'];
 
 export const loginUser = createAsyncThunk(
   'auth/login',
@@ -44,6 +50,36 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+export const fetchUser = createAsyncThunk(
+  'auth/fetch',
+  async (payload:FetchUserPayload, thunkAPI) => {
+    try {
+      const req = await axios.get(`http://localhost:8000/users/${payload.userId}`);
+
+      const user = req.data.user;
+
+      return {
+        user,
+        property: payload.property
+      }
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const updateUser = createAsyncThunk(
+  'auth/update',
+  async (payload:User, thunkAPI) => {
+    try {
+      const req = await axios.put('http://localhost:8000/users', payload);
+      return req.data.user;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+)
+
 export const AuthenticationSlice = createSlice({
   name: "authentication",
   initialState,
@@ -56,6 +92,9 @@ export const AuthenticationSlice = createSlice({
     },
     resetRegisterSuccess(state) {
       state.registerSuccess = false;
+    },
+    resetUser(state, action:PayloadAction<ResetUser>) {
+      state[action.payload] = undefined;
     }
   },
   extraReducers: (builder) => {
@@ -70,6 +109,16 @@ export const AuthenticationSlice = createSlice({
       state.loading = true;
     });
 
+    builder.addCase(fetchUser.pending, (state, action) => {
+      state.userError = false;
+      state.loading = true;
+    });
+
+    builder.addCase(updateUser.pending, (state, action) => {
+      state.userError = false;
+      state.loading = true;
+    });
+
     // Fulfilled logic
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.loading = false;
@@ -79,6 +128,17 @@ export const AuthenticationSlice = createSlice({
     builder.addCase(registerUser.fulfilled, (state, action) => {
       state.loading = false;
       state.registerSuccess = true;
+    });
+
+    builder.addCase(fetchUser.fulfilled, (state, action) => {
+      state[action.payload.property] = action.payload.user;
+      state.loading = false;
+    });
+    
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      state.loggedInUser = action.payload;
+      state.profileUser = action.payload;
+      state.loading = false;
     });
     
     // Rejected logic
@@ -91,9 +151,19 @@ export const AuthenticationSlice = createSlice({
       state.registerError = true;
       state.loading = false;
     });
+    
+    builder.addCase(fetchUser.rejected, (state, action) => {
+      state.userError = true;
+      state.loading = false;
+    });
+    
+    builder.addCase(updateUser.rejected, (state, action) => {
+      state.userError = true;
+      state.loading = false;
+    });
   }
 });
 
-export const {resetLoginError, resetRegisterError, resetRegisterSuccess} = AuthenticationSlice.actions;
+export const { resetLoginError, resetRegisterError, resetRegisterSuccess, resetUser } = AuthenticationSlice.actions;
 
 export default AuthenticationSlice.reducer;

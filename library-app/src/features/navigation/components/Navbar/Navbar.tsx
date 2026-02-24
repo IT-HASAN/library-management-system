@@ -48,7 +48,7 @@ export const Navbar:React.FC = () => {
       </Link>
       <div className="navbar-option-section">
         <Link to="/catalog" className="navbar-option navbar-link">
-          <h2>View Catalog</h2>
+          <h2 style={{fontSize: "2rem"}}>View Catalog</h2>
         </Link>
         <div className="navbar-search-box">
           <input className="navbar-search-input" placeholder="Search Catalog" onKeyDown={handleEnterKey} ref={searchRef} />
@@ -62,11 +62,11 @@ export const Navbar:React.FC = () => {
         {
           authState.loggedInUser ?
             <div className="navbar-option" onClick={navigateToProfile}>
-              <h2>{authState.loggedInUser.firstName}'s Account</h2>
+              <h2 style={{fontSize: "2rem"}}>{authState.loggedInUser.firstName}'s Account</h2>
             </div>
             :
             <div className="navbar-option" onClick={toggleLogin}>
-              <h2>Login</h2>
+              <h2 style={{fontSize: "2rem"}}>Login</h2>
             </div>
         }
       </div>
