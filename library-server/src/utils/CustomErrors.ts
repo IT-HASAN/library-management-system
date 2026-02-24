@@ -15,3 +15,9 @@ export class UserDoseNotExistError extends Error {
     super(message);
   }
 }
+
+export class BookDoseNotExistError extends Error {
+  constructor (message:string) {
+    super(message);
+  }
+}
