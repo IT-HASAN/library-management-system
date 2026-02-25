@@ -10,6 +10,8 @@
   --secondary: #0daB76;
   --box-shadow: rgba(100, 100, 111, .2) 0px 7px 29px 0px;
   --form-error: #cb4c4e;
+  --even-table-rows: #ebe9f6;
+  --odd-table-rows: #e7f7f1;
 }
 
 html, body, #root {
