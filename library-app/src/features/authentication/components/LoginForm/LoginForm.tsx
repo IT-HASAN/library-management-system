@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { type AppDispatch, type RootState } from '../../../../redux/ReduxStore';
+import type { AppDispatch, RootState } from '../../../../redux/ReduxStore';
 import { loginUser, resetLoginError } from '../../../../redux/slices/AuthenticationSlice';
 
 import './LoginForm.css';

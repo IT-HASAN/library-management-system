@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import { type User, type LoginUserPayload, type RegisterUserPayload, type FetchUserPayload  } from '../../models/User';
+import type { User, LoginUserPayload, RegisterUserPayload, FetchUserPayload  } from '../../models/User';
 
 import axios from 'axios';
 

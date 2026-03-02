@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '../../../../components';
 import './LoginRegisterModal.css';
-import { type AppDispatch, type RootState } from '../../../../redux/ReduxStore';
+import type { AppDispatch, RootState } from '../../../../redux/ReduxStore';
 import { useEffect, useState } from 'react';
 import { setDisplayLogin } from '../../../../redux/slices/ModalSlice';
 import { LoginForm } from '../LoginForm/LoginForm';
