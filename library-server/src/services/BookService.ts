@@ -1,6 +1,8 @@
+import { string } from 'joi';
 import BookDao from '../daos/BookDao';
 import { IBook } from '../models/Book';
 import { BookDoseNotExistError } from '../utils/CustomErrors';
+import { IPagination } from '../models/Pagination';
 
 export async function findAllBooks():Promise<IBook[]> {
   return await BookDao.find().lean<IBook[]>();
@@ -31,4 +33,75 @@ export async function removeBook(barcode:string):Promise<string> {
   } catch (error:any) {
     throw error;
   }
+}
+
+export async function queryBooks(page:number, limit:number, title?:string, barcode?:string, description?:string, author?:string, subject?:string, genre?:string):Promise<IPagination<IBook>> {
+  let books:IBook[] = await BookDao.find();
+  let filteredBooks:IBook[] = [];
+  
+  books.forEach((book) => {
+    if (barcode) {
+      if(book.barcode.toLowerCase().includes(barcode.toLowerCase()) && !filteredBooks.some(b => b['barcode'] === book.barcode)) {
+        filteredBooks.push(book);
+      }
+    }
+
+    if (title) {
+      if(book.title.toLowerCase().includes(title.toLowerCase()) && !filteredBooks.some(b => b['barcode'] === book.barcode)) {
+        filteredBooks.push(book);
+      }
+    }
+
+    if (description) {
+      if(book.description.toLowerCase().includes(description.toLowerCase()) && !filteredBooks.some(b => b['barcode'] === book.barcode)) {
+        filteredBooks.push(book);
+      }
+    }
+    
+    if (author) {
+      if(book.authors.some(a => a.toLowerCase().includes(author.toLowerCase()) && !filteredBooks.some(b => b['barcode'] === book.barcode))) {
+        filteredBooks.push(book);
+      }
+    }
+
+    if (subject) {
+      if(book.subjects.some(s => s.toLowerCase().includes(subject.toLowerCase()) && !filteredBooks.some(b => b['barcode'] === book.barcode))) {
+        filteredBooks.push(book);
+      }
+    }
+    
+    if (genre) {
+      if(book.genre.toLowerCase() === genre.toLowerCase() && !filteredBooks.some(b => b['barcode'] === book.barcode)) {
+        filteredBooks.push(book);
+      }
+    }
+  })  
+
+  return paginateBook(filteredBooks, page, limit);
+}
+
+export function paginateBook(books: IBook[], page:number, limit:number): IPagination<IBook> {
+  let pageBooks:IBook[] = [];
+
+  const pages = Math.ceil(books.length / Number(limit));
+
+  if (Number(page) === pages) {
+    const startPoint = (Number(page) - 1) * Number(limit);
+    pageBooks = books.slice(startPoint);
+  } else {
+    const startPoint = (Number(page) - 1) * Number(limit);
+    const endPoint = startPoint + Number(limit);
+    pageBooks = books.slice(startPoint, endPoint);
+  }
+
+  const pageObject = {
+    totalCount: books.length,
+    currentPage: Number(page),
+    totalPages: pages,
+    limit: Number(limit),
+    pageCount: pageBooks.length,
+    items: pageBooks
+  }
+
+  return pageObject;
 }
