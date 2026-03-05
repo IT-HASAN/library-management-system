@@ -1,0 +1,38 @@
+.catalog-search-page-navigator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.catalog-search-page-navigator-navigate {
+  cursor: pointer;
+  margin: 0 8px;
+}
+
+.catalog-search-page-navigator-navigate:hover {
+  text-decoration: underline;
+}
+
+.catalog-search-page-numbers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+}
+
+.catalog-search-page-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+  margin: 0 8px;
+}
+
+.number-active,
+.catalog-search-page-number:hover {
+  background-color: rgba(54, 38, 167, .3);
+  border-radius: 3px;
+}

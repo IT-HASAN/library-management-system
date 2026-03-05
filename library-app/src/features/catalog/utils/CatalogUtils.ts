@@ -1,4 +1,5 @@
-import type { Book } from "../../../models/Book";
+import type { Book } from '../../../models/Book';
+import type { PageInfo } from '../../../models/Page';
 
 export function generateRandomGenres():string[] {
   const choices = ['Non-Fiction', 'Childrens', 'Fantasy', 'Biography', 'Romance', 'Science Fiction', 'Young Adult'];
@@ -26,4 +27,57 @@ export function getRandomBooksByGenre(genre:string, books:Book[]):Book[] {
   }
 
   return randomBooks;
+}
+
+export function calculatePaging(pageInfo:PageInfo):string[] {
+  const pageArr:string[] = [];
+
+  if (pageInfo) {
+    const total = pageInfo?.totalPages;
+    const current = pageInfo?.currentPage;
+
+    if (total <= 10) {
+      for (let i = 1; i <= total; i++) {
+        pageArr.push(`${i}`);
+      }
+    } else if (total > 10 && current - 7 <= 0) {
+      for (let i = 1; i <= 8; i++) {
+        pageArr.push(`${i}`);
+      }
+      
+      pageArr.push('...');
+
+      for (let i = total - 1; i <= total; i++) {
+        pageArr.push(`${i}`);
+      }
+    } else if (total > 10 && total - 7 > 0 && total - current > 5) {
+      for (let i = 1; i <= 2; i++) {
+        pageArr.push(`${i}`);
+      }
+
+      pageArr.push('...');
+
+      for (let i = current; i <= current + 4; i++) {
+        pageArr.push(`${i}`);
+      }
+      
+      pageArr.push('...');
+
+      for (let i = total - 1; i <= total; i++) {
+        pageArr.push(`${i}`);
+      }
+    } else {
+      for (let i = 1; i <= 2; i++) {
+        pageArr.push(`${i}`);
+      } 
+      
+      pageArr.push('...');
+        
+      for (let i = total - 5; i <= total; i++) {
+        pageArr.push(`${i}`);
+      }
+    }
+  }
+
+  return pageArr;
 }
