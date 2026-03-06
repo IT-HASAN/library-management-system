@@ -3,6 +3,7 @@ import Joi, { ObjectSchema } from 'joi';
 import { NextFunction, Response, Request } from 'express';
 import { CreateIUser, UpdateIUser } from '../models/User';
 import { IBook, UpdateIBook } from '../models/Book';
+import { ILibraryCard } from '../models/LibraryCard';
 
 export function ValidateSchema(schema: ObjectSchema, property:string) {
   return async (req:Request, res:Response, next:NextFunction) => {
@@ -77,6 +78,14 @@ export const Schemas = {
     }),
     delete: Joi.object<{barcode:string}>({
       barcode: Joi.string().regex(/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/).required()
+    })
+  },
+  libraryCard: {
+    create: Joi.object<ILibraryCard>({
+      user: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+    }),
+    get: Joi.object<{cardId:string}>({
+      cardId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
     })
   }
 }
