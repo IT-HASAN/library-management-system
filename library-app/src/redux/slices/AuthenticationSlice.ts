@@ -3,10 +3,12 @@ import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/tool
 import type { User, LoginUserPayload, RegisterUserPayload, FetchUserPayload  } from '../../models/User';
 
 import axios from 'axios';
+import { LibraryCard } from '../../features/landing';
 
 interface AuthenticationSliceState {
   loggedInUser: User | undefined;
   profileUser: User | undefined;
+  libraryCard: string;
   loading: boolean;
   loginError: boolean;
   registerError: boolean;
@@ -17,6 +19,7 @@ interface AuthenticationSliceState {
 const initialState:AuthenticationSliceState = {
   loggedInUser: undefined,
   profileUser: undefined,
+  libraryCard: "",
   loading: false,
   loginError: false,
   registerError: false,
@@ -80,6 +83,19 @@ export const updateUser = createAsyncThunk(
   }
 )
 
+export const getLibraryCard = createAsyncThunk(
+  'auth/librarycard',
+  async (userId:string, thunkAPI) => {
+    try {
+      const req = await axios.post('http://localhost:8000/card/', {user:userId});
+
+      return req.data.libraryCard;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+)
+
 export const AuthenticationSlice = createSlice({
   name: "authentication",
   initialState,
@@ -119,6 +135,11 @@ export const AuthenticationSlice = createSlice({
       state.loading = true;
     });
 
+    builder.addCase(getLibraryCard.pending, (state, action) => {
+      state.userError = false;
+      state.loading = true;
+    })
+
     // Fulfilled logic
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.loading = false;
@@ -139,6 +160,11 @@ export const AuthenticationSlice = createSlice({
       state.loggedInUser = action.payload;
       state.profileUser = action.payload;
       state.loading = false;
+    });
+
+    builder.addCase(getLibraryCard.fulfilled, (state, action) => {
+      state.loading = false;
+      state.libraryCard = action.payload._id
     });
     
     // Rejected logic
