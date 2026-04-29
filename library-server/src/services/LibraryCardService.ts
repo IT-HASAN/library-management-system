@@ -1,26 +1,35 @@
-import LibraryCardDao from '../daos/LibraryCardDao';
+import { LibraryCardModel } from '../daos/LibraryCardDao';
+import { ILibraryCard, ILibraryCardDb } from '../models/LibraryCard';
+import { LibraryCardDoesNotExistError } from '../utils/CustomErrors';
 
-import { ILibraryCard } from '../models/LibraryCard';
-import { LibraryCardDoseNotExistError } from '../utils/CustomErrors';
+export async function registerLibraryCard(card: ILibraryCard): Promise<ILibraryCard> {
+  const saved = await LibraryCardModel.findOneAndUpdate(
+    { user: card.user },
+    { $setOnInsert: { user: card.user } },
+    { new: true, upsert: true }
+  ).lean<ILibraryCardDb>();
 
-export async function registerLibraryCard(card:ILibraryCard):Promise<ILibraryCard> {
-  try {
-    const savedCard = new LibraryCardDao(card);
-    return await savedCard.save();
-  } catch (error:any) {
-    let c = await LibraryCardDao.findOne({user:card.user}).populate('user');
-    if (c) return c;
-    throw error;
+  if (!saved) {
+    throw new Error("Failed to register library card");
   }
+
+  return {
+    user: saved.user.toString()
+  };
 }
 
-export async function findLibraryCard(libraryCardId:string):Promise<ILibraryCard> {
-  try {
-    let card = await LibraryCardDao.findOne({_id:libraryCardId}).populate('user');
-    if (card) return card;
+export async function findLibraryCard(libraryCardId: string): Promise<ILibraryCard> {
+  const card = await LibraryCardModel
+    .findById(libraryCardId)
+    .lean<ILibraryCardDb>();
 
-    throw new LibraryCardDoseNotExistError("The library card specified does not exist");
-  } catch (error:any) {
-    throw error;
+  if (!card) {
+    throw new LibraryCardDoesNotExistError(
+      "The library card specified does not exist"
+    );
   }
+
+  return {
+    user: card.user.toString()
+  };
 }

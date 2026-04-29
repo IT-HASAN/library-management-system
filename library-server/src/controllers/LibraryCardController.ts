@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { registerLibraryCard, findLibraryCard } from '../services/LibraryCardService';
 
 import { ILibraryCard } from '../models/LibraryCard';
-import { LibraryCardDoseNotExistError } from '../utils/CustomErrors';
+import { LibraryCardDoesNotExistError } from '../utils/CustomErrors';
 
 async function getLibraryCard(req:Request, res:Response) {
   const { cardId } = req.params;
@@ -13,7 +13,7 @@ async function getLibraryCard(req:Request, res:Response) {
     res.status(200).json({message: "Retrieved the users card", libraryCard});
 
   } catch (error) {
-    if (error instanceof LibraryCardDoseNotExistError) {
+    if (error instanceof LibraryCardDoesNotExistError) {
       res.status(404).json({message: "The specific library card does not exist"});
     } else {
       res.status(500).json({message: "Unable to retrieve the library card", error});

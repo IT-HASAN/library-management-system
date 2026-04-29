@@ -1,13 +1,11 @@
 import mongoose, { Schema } from 'mongoose';
 
-import { ILibraryCard } from '../models/LibraryCard';
+const LibraryCardDefinition: Record<string, any> = {
+  user: { type: Schema.Types.ObjectId, required: true, unique: true, ref: 'User' }
+};
 
-const LibraryCardSchema:Schema = new Schema(
-  {
-    user: {type: Schema.Types.ObjectId, required: true, unique: true, ref: "User"}
-  }
-);
+const LibraryCardSchema = new Schema(LibraryCardDefinition, {
+  versionKey: false
+});
 
-const ILibraryCardDao = mongoose.model('LibraryCard', LibraryCardSchema as any);
-
-export default ILibraryCardDao;
+export const LibraryCardModel = mongoose.model('LibraryCard', LibraryCardSchema as any);

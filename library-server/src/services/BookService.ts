@@ -1,42 +1,78 @@
-import { string } from 'joi';
-import BookDao from '../daos/BookDao';
-import { IBook } from '../models/Book';
-import { BookDoseNotExistError } from '../utils/CustomErrors';
+import { BookModel } from '../daos/BookDao';
+import { IBookBase, IBook, UpdateIBook, IBookDocument, IBookLoanRecords } from '../models/Book';
+import { BookDoesNotExistError } from '../utils/CustomErrors';
 import { IPagination } from '../models/Pagination';
 
-export async function findAllBooks():Promise<IBook[]> {
-  return await BookDao.find().lean<IBook[]>();
+function bookMap(doc: IBookDocument): IBook {
+  return {
+    _id: doc._id.toString(),
+    barcode: doc.barcode,
+    cover: doc.cover,
+    title: doc.title,
+    authors: doc.authors,
+    description: doc.description,
+    subjects: doc.subjects,
+    publicationDate: doc.publicationDate,
+    publisher: doc.publisher,
+    pages: doc.pages,
+    genre: doc.genre
+  };
 }
 
-export async function modifyBook(book:IBook):Promise<IBook> {
-  try {
-    let id = await BookDao.findOneAndUpdate({barcode: book.barcode}, book, {new: true}).lean<IBook>();
-    if (id) return book;
+export async function findAllBooks():Promise<IBookLoanRecords[]> {
+  const books = await BookModel
+    .find()
+    .populate('records')
+    .lean({ virtuals: true }) as unknown as IBookLoanRecords[];
 
-    throw new BookDoseNotExistError("The book you are trying to modify does not exist");
-  } catch (error:any) {
-    throw error;
+  return books;
+}
+
+export async function findBookById(id:string):Promise<IBookLoanRecords> {
+  const book = await BookModel
+    .findById(id)
+    .populate('records')
+    .lean({ virtuals: true }) as unknown as IBookLoanRecords;
+
+  if (!book) {
+    throw new BookDoesNotExistError("The specified book does not exist");
   }
+
+  return book;
 }
 
-export async function registerBook(book:IBook):Promise<IBook> {
-  const savedBook = new BookDao(book);
-  return await savedBook.save();
+export async function modifyBook(book:UpdateIBook):Promise<IBook> {
+  const updatedBook = await BookModel
+    .findByIdAndUpdate(book._id, book, { new: true })
+    .lean<IBook>();
+
+  if (!updatedBook) {
+    throw new BookDoesNotExistError("The book you are trying to modify does not exist");
+  }
+
+  return updatedBook;
+}
+
+export async function registerBook(book:IBookBase):Promise<IBook> {
+  const savedBook = new BookModel(book);
+  const saved = await savedBook.save();
+
+  return bookMap(saved);
 }
 
 export async function removeBook(barcode:string):Promise<string> {
   try {
-    let id = await BookDao.findOneAndDelete({barcode});
+    let id = await BookModel.findOneAndDelete({barcode});
     if (id) return "Successfully deleted book";
 
-    throw new BookDoseNotExistError("The book you are trying to delete does not exist");
+    throw new BookDoesNotExistError("The book you are trying to delete does not exist");
   } catch (error:any) {
     throw error;
   }
 }
 
 export async function queryBooks(page:number, limit:number, title?:string, barcode?:string, description?:string, author?:string, subject?:string, genre?:string):Promise<IPagination<IBook>> {
-  let books:IBook[] = await BookDao.find();
+  let books:IBook[] = await BookModel.find();
   let filteredBooks:IBook[] = [];
   
   books.forEach((book) => {

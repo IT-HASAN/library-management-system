@@ -1,4 +1,7 @@
-export interface IBook {
+import { ILoanRecord } from './LoanRecord';
+import { Types } from 'mongoose';
+
+export interface IBookBase {
   barcode: string;
   cover: string;
   title: string;
@@ -11,6 +14,20 @@ export interface IBook {
   genre: string;
 }
 
-export interface UpdateIBook extends IBook {
+export interface IBook extends IBookBase {
   _id: string;
+}
+
+export interface UpdateIBook extends IBookBase {
+  _id: string;
+}
+
+export interface IBookDb extends IBookBase {}
+
+export interface IBookDocument extends IBookDb {
+  _id: Types.ObjectId;
+}
+
+export interface IBookLoanRecords extends IBook {
+  records: ILoanRecord[];
 }

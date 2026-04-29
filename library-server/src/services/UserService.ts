@@ -1,10 +1,8 @@
 import bcrypt from 'bcrypt';
-
 import { config } from '../config';
-
-import UserDao from '../daos/UserDao';
+import { UserModel } from '../daos/UserDao';
 import { IUser, CreateIUser, UpdateIUser, IUserDocument } from '../models/User';
-import { UnableToSaveUserError, InvalidUsernameOrPasswordError, UserDoseNotExistError } from '../utils/CustomErrors';
+import { UnableToSaveUserError, InvalidUsernameOrPasswordError, UserDoesNotExistError } from '../utils/CustomErrors';
 
 export async function register(user:CreateIUser):Promise<IUser>{
   const ROUNDS = config.server.rounds;
@@ -12,7 +10,7 @@ export async function register(user:CreateIUser):Promise<IUser>{
   try {
     const hashedPassword = await bcrypt.hash(user.password, ROUNDS);
 
-    const saved = new UserDao({...user, password:hashedPassword});
+    const saved = new UserModel({...user, password:hashedPassword});
 
     const result = await saved.save();
 
@@ -32,7 +30,7 @@ export async function login(credentials:{email:string, password:string}):Promise
   const {email, password} = credentials;
 
   try {
-    const user = await UserDao.findOne({email}).select('+password').lean<IUserDocument>();
+    const user = await UserModel.findOne({email}).select('+password').lean<IUserDocument>();
 
     if (!user) {
       throw new InvalidUsernameOrPasswordError("Invalid username or password");
@@ -41,7 +39,7 @@ export async function login(credentials:{email:string, password:string}):Promise
 
       if(validPassword) {
         return {
-          _id: user._id,
+          _id: user._id.toString(),
           type: user.type,
           firstName: user.firstName,
           lastName: user.lastName,
@@ -56,20 +54,16 @@ export async function login(credentials:{email:string, password:string}):Promise
   }
 }
 
-export async function findAllUsers():Promise<IUser[]> {
-  try {
-    return await UserDao.find().lean<IUser[]>();
-  } catch (error) {
-    return [];
-  }
+export function findAllUsers(): Promise<IUser[]> {
+  return UserModel.find().lean<IUser[]>();
 }
 
 export async function findUserById(userId:string):Promise<IUser> {
   try {
-    const foundUser = await UserDao.findById(userId).lean<IUser>();
+    const foundUser = await UserModel.findById(userId).lean<IUser>();
     
     if(!foundUser) {
-      throw new UserDoseNotExistError("User does not exist with this ID");
+      throw new UserDoesNotExistError("User does not exist with this ID");
     }
 
     return foundUser;
@@ -89,10 +83,10 @@ export async function modifyUser(user:UpdateIUser):Promise<IUser> {
       );
     }
 
-    const updatedUser = await UserDao.findByIdAndUpdate(_id, updateData, {new: true}).lean<IUser>();
+    const updatedUser = await UserModel.findByIdAndUpdate(_id, updateData, {new: true}).lean<IUser>();
     
     if (!updatedUser) {
-      throw new UserDoseNotExistError("User does not exist with this ID");
+      throw new UserDoesNotExistError("User does not exist with this ID");
     }
 
     return updatedUser;
@@ -103,10 +97,10 @@ export async function modifyUser(user:UpdateIUser):Promise<IUser> {
 
 export async function removeUser(userId:string):Promise<string> {
   try {
-    const deletedUser = await UserDao.findByIdAndDelete(userId);
+    const deletedUser = await UserModel.findByIdAndDelete(userId);
 
     if (!deletedUser) {
-      throw new UserDoseNotExistError("User does not exist with this ID");
+      throw new UserDoesNotExistError("User does not exist with this ID");
     }
 
     return "User deleted successfully";

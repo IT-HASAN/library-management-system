@@ -10,19 +10,25 @@ export class InvalidUsernameOrPasswordError extends Error {
   }
 }
 
-export class UserDoseNotExistError extends Error {
+export class UserDoesNotExistError extends Error {
   constructor (message:string) {
     super(message);
   }
 }
 
-export class BookDoseNotExistError extends Error {
+export class BookDoesNotExistError extends Error {
   constructor (message:string) {
     super(message);
   }
 }
 
-export class LibraryCardDoseNotExistError extends Error {
+export class LibraryCardDoesNotExistError extends Error {
+  constructor (message:string) {
+    super(message);
+  }
+}
+
+export class LoanRecordDoesNotExistError extends Error {
   constructor (message:string) {
     super(message);
   }
