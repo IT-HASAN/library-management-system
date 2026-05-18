@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 import './UpdateUserForm.css';
 import type { AppDispatch, RootState } from '../../../../redux/ReduxStore';
 import type { User } from '../../../../models/User';
@@ -10,13 +8,12 @@ import { Create } from '@mui/icons-material';
 import { resetUser, updateUser } from '../../../../redux/slices/AuthenticationSlice';
 
 export const UpdateUserForm:React.FC = () => {
-
   const userState = useSelector((state:RootState) => state.authentication);
   const dispatch:AppDispatch = useDispatch();
-
-  const [displayUpdate, setDisplayUpdate] = useState<boolean>(false);
+  
   const profileUser = userState.profileUser;
   const [user, setUser] = useState<User | undefined>(profileUser);
+  const [displayUpdate, setDisplayUpdate] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -47,17 +44,6 @@ export const UpdateUserForm:React.FC = () => {
     dispatch(resetUser("profileUser"));
     navigate("/");
   }
-
-  useEffect(() => {
-  if (!profileUser) return;
-
-  setUser(prev => {
-    if (prev?._id === profileUser._id) {
-      return prev;
-    }
-    return profileUser;
-  });
-}, [profileUser]);
 
   return (
     <form className="update-user-form">

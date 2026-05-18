@@ -22,23 +22,33 @@ function bookMap(doc: IBookDocument): IBook {
 export async function findAllBooks():Promise<IBookLoanRecords[]> {
   const books = await BookModel
     .find()
-    .populate('records')
-    .lean({ virtuals: true }) as unknown as IBookLoanRecords[];
+    .populate({
+      path:'records',
+      options: {
+        sort: { createdAt: -1 }
+      }
+    })
+    .lean({ virtuals: true });
 
-  return books;
+  return books as unknown as IBookLoanRecords[];
 }
 
 export async function findBookById(id:string):Promise<IBookLoanRecords> {
   const book = await BookModel
     .findById(id)
-    .populate('records')
-    .lean({ virtuals: true }) as unknown as IBookLoanRecords;
+    .populate({
+      path: 'records',
+      options: {
+        sort: { createdAt: -1 }
+      }
+    })
+    .lean({ virtuals: true });
 
   if (!book) {
     throw new BookDoesNotExistError("The specified book does not exist");
   }
 
-  return book;
+  return book as unknown as IBookLoanRecords;
 }
 
 export async function modifyBook(book:UpdateIBook):Promise<IBook> {
@@ -71,53 +81,82 @@ export async function removeBook(barcode:string):Promise<string> {
   }
 }
 
-export async function queryBooks(page:number, limit:number, title?:string, barcode?:string, description?:string, author?:string, subject?:string, genre?:string):Promise<IPagination<IBook>> {
-  let books:IBook[] = await BookModel.find();
-  let filteredBooks:IBook[] = [];
-  
-  books.forEach((book) => {
-    if (barcode) {
-      if(book.barcode.toLowerCase().includes(barcode.toLowerCase()) && !filteredBooks.some(b => b['barcode'] === book.barcode)) {
-        filteredBooks.push(book);
+export async function queryBooks(
+  page:number,
+  limit:number,
+  title?:string,
+  barcode?:string,
+  description?:string,
+  author?:string,
+  subject?:string,
+  genre?:string
+): Promise<IPagination<IBookLoanRecords>> {
+  const books = await BookModel
+    .find()
+    .populate({
+      path: 'records',
+      options: {
+        sort: { createdAt: -1 }
       }
+    })
+    .lean<IBookLoanRecords[]>({ virtuals: true });
+
+  const filteredBooks = books.filter((book) => {
+
+    if (
+      barcode &&
+      book.barcode.toLowerCase().includes(barcode.toLowerCase())
+    ) {
+      return true;
     }
 
-    if (title) {
-      if(book.title.toLowerCase().includes(title.toLowerCase()) && !filteredBooks.some(b => b['barcode'] === book.barcode)) {
-        filteredBooks.push(book);
-      }
+    if (
+      title &&
+      book.title.toLowerCase().includes(title.toLowerCase())
+    ) {
+      return true;
     }
 
-    if (description) {
-      if(book.description.toLowerCase().includes(description.toLowerCase()) && !filteredBooks.some(b => b['barcode'] === book.barcode)) {
-        filteredBooks.push(book);
-      }
-    }
-    
-    if (author) {
-      if(book.authors.some(a => a.toLowerCase().includes(author.toLowerCase()) && !filteredBooks.some(b => b['barcode'] === book.barcode))) {
-        filteredBooks.push(book);
-      }
+    if (
+      description &&
+      book.description.toLowerCase().includes(description.toLowerCase())
+    ) {
+      return true;
     }
 
-    if (subject) {
-      if(book.subjects.some(s => s.toLowerCase().includes(subject.toLowerCase()) && !filteredBooks.some(b => b['barcode'] === book.barcode))) {
-        filteredBooks.push(book);
-      }
+    if (
+      author &&
+      book.authors.some(a =>
+        a.toLowerCase().includes(author.toLowerCase())
+      )
+    ) {
+      return true;
     }
-    
-    if (genre) {
-      if(book.genre.toLowerCase() === genre.toLowerCase() && !filteredBooks.some(b => b['barcode'] === book.barcode)) {
-        filteredBooks.push(book);
-      }
+
+    if (
+      subject &&
+      book.subjects.some(s =>
+        s.toLowerCase().includes(subject.toLowerCase())
+      )
+    ) {
+      return true;
     }
-  })  
+
+    if (
+      genre &&
+      book.genre.toLowerCase() === genre.toLowerCase()
+    ) {
+      return true;
+    }
+
+    return false;
+  });
 
   return paginateBook(filteredBooks, page, limit);
 }
 
-export function paginateBook(books: IBook[], page:number, limit:number): IPagination<IBook> {
-  let pageBooks:IBook[] = [];
+export function paginateBook(books: IBookLoanRecords[], page:number, limit:number): IPagination<IBookLoanRecords> {
+  let pageBooks:IBookLoanRecords[] = [];
 
   const pages = Math.ceil(books.length / Number(limit));
 

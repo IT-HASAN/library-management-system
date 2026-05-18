@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './BookInformation.css';
 import type { Book } from '../../../../models/Book';
 import { mapAuthorsToString } from '../../utils/BookUtils';

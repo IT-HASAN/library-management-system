@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-
 import './CatalogSearch.css';
 import type { AppDispatch, RootState } from '../../../../redux/ReduxStore';
 import { queryBooks } from '../../../../redux/slices/BookSlice';
@@ -17,15 +16,23 @@ export const CatalogSearch:React.FC = () => {
 
   useEffect(() => {
     dispatch(queryBooks(location.search));
-  }, [location.search])
+  }, [dispatch, location.search])
 
   return (
     <div className="catalog-search">
       <div className="catalog-search-advanced-search-section">
         <CatalogAdvancedSearch />
       </div>
-      {
-        !bookState.loading ? 
+      {bookState.loadingSearch ? 
+        <div className="staging-screen">
+          <h2>Searching books...</h2>
+        </div>
+        : 
+        !bookState.books.length || bookState.searchError ? 
+        <div className="staging-screen">
+          <h2>No results found</h2>
+        </div>
+        : 
         <>
           <h2>Displaying {bookState.pagingInformation?.pageCount} books out of {bookState.pagingInformation?.totalCount}</h2>
           <div className="catalog-search-item-area">
@@ -35,7 +42,6 @@ export const CatalogSearch:React.FC = () => {
             <CatalogSearchPageNavigator />
           </div>
         </>
-        : <></>
       }
     </div>
   )

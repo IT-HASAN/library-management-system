@@ -109,3 +109,11 @@ p {
   background-color: var(--background-primary);
   box-shadow: var(--box-shadow);
 }
+
+.staging-screen {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}

@@ -1,5 +1,4 @@
-import React, {useEffect, useRef} from 'react';
-
+import React, { useEffect, useRef} from 'react';
 import './RegisterForm.css';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../../redux/ReduxStore';
@@ -10,7 +9,6 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm:React.FC<RegisterFormProps> = ({toggleLogin}) => {
-
   const authState = useSelector((state:RootState) => state.authentication)
   const dispatch:AppDispatch = useDispatch();
 
@@ -68,7 +66,7 @@ export const RegisterForm:React.FC<RegisterFormProps> = ({toggleLogin}) => {
         <h6>Password</h6>
         <input className="register-form-input" placeholder="password" name="password" type="password" required ref={passwordRef} />
       </div>
-      <button className="register-form-submit" onClick={handleRegisterUser}>Register</button>
+      <button type="button" className="register-form-submit" onClick={handleRegisterUser}>Register</button>
       {authState.registerSuccess ? 
         <p>Registered Successfully.
           <span className="register-form-login" onClick={toggleLogin}>Login here.</span>

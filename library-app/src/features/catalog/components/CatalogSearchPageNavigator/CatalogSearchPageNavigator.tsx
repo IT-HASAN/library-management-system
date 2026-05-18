@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-
 import './CatalogSearchPageNavigator.css';
 import type { RootState } from '../../../../redux/ReduxStore';
 import { calculatePaging } from '../../utils/CatalogUtils';

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import libraryCard from '../../../../assets/librarycard.png';
-
 import './LibraryCard.css';
 import type { AppDispatch } from '../../../../redux/ReduxStore';
 import { setDisplayLibraryCard } from '../../../../redux/slices/ModalSlice';

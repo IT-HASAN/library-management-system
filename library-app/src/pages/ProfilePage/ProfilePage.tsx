@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-
 import './ProfilePage.css';
 import type { AppDispatch, RootState } from '../../redux/ReduxStore';
 import { fetchUser } from '../../redux/slices/AuthenticationSlice';
@@ -36,7 +35,7 @@ export default function ProfilePage() {
         <h1>{profileUser?.firstName} {profileUser?.lastName}'s Profile</h1>
         <div className="profile-page-cols">
           <div className="profile-page-left-column">
-            <UpdateUserForm />
+            <UpdateUserForm key={profileUser?._id} />
           </div>
           <div className="profile-page-right-column">
 

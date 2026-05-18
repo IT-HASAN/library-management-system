@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import './BookCarousel.css';
 import type { Book } from '../../../../models/Book';
 import { BookCard } from '../BookCard/BookCard';
@@ -12,18 +11,18 @@ export const BookCarousel:React.FC<BookCarouselProps> = ({books}) => {
   const [order, setOrder] = useState<Book[]>(books);
 
   const moveLeft = () => {
-    const item = order[0];
-    const reordered = order.slice(1, order.length);
-
-    reordered.push(item);
-    setOrder(reordered);
-  }
-  
-  const moveRight = () => {
     const item = order[order.length -1];
     let reordered = order.slice(0, order.length -1);
 
     reordered = [item, ...reordered];
+    setOrder(reordered);
+  }
+  
+  const moveRight = () => {
+    const item = order[0];
+    const reordered = order.slice(1, order.length);
+
+    reordered.push(item);
     setOrder(reordered);
   }
 

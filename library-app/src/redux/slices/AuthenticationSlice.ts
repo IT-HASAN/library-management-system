@@ -1,9 +1,6 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit';
-
 import type { User, LoginUserPayload, RegisterUserPayload, FetchUserPayload  } from '../../models/User';
-
 import axios from 'axios';
-import { LibraryCard } from '../../features/landing';
 
 interface AuthenticationSliceState {
   loggedInUser: User | undefined;
@@ -36,7 +33,12 @@ export const loginUser = createAsyncThunk(
       const req = await axios.post('http://localhost:8000/auth/login', user);
       return req.data.user;
     } catch(e) {
-      return thunkAPI.rejectWithValue(e);
+      if (axios.isAxiosError(e)) {
+        return thunkAPI.rejectWithValue(
+          e.response?.data?.message || e.message
+        );
+      }
+      return thunkAPI.rejectWithValue("Unknown error");
     }
   }
 );
@@ -48,7 +50,12 @@ export const registerUser = createAsyncThunk(
       const req = await axios.post('http://localhost:8000/auth/register', user);
       return req.data.user;
     } catch(e) {
-      return thunkAPI.rejectWithValue(e);
+      if (axios.isAxiosError(e)) {
+        return thunkAPI.rejectWithValue(
+          e.response?.data?.message || e.message
+        );
+      }
+      return thunkAPI.rejectWithValue("Unknown error");
     }
   }
 );
@@ -66,7 +73,12 @@ export const fetchUser = createAsyncThunk(
         property: payload.property
       }
     } catch (e) {
-      return thunkAPI.rejectWithValue(e);
+      if (axios.isAxiosError(e)) {
+        return thunkAPI.rejectWithValue(
+          e.response?.data?.message || e.message
+        );
+      }
+      return thunkAPI.rejectWithValue("Unknown error");
     }
   }
 );
@@ -78,7 +90,12 @@ export const updateUser = createAsyncThunk(
       const req = await axios.put('http://localhost:8000/users', payload);
       return req.data.user;
     } catch (e) {
-      return thunkAPI.rejectWithValue(e);
+      if (axios.isAxiosError(e)) {
+        return thunkAPI.rejectWithValue(
+          e.response?.data?.message || e.message
+        );
+      }
+      return thunkAPI.rejectWithValue("Unknown error");
     }
   }
 )
@@ -91,7 +108,12 @@ export const getLibraryCard = createAsyncThunk(
 
       return req.data.libraryCard;
     } catch (e) {
-      return thunkAPI.rejectWithValue(e);
+      if (axios.isAxiosError(e)) {
+        return thunkAPI.rejectWithValue(
+          e.response?.data?.message || e.message
+        );
+      }
+      return thunkAPI.rejectWithValue("Unknown error");
     }
   }
 )
@@ -115,27 +137,27 @@ export const AuthenticationSlice = createSlice({
   },
   extraReducers: (builder) => {
     // Pending logic
-    builder.addCase(loginUser.pending, (state, action) => {
+    builder.addCase(loginUser.pending, (state) => {
       state.loginError = false;
       state.loading = true;
     });
 
-    builder.addCase(registerUser.pending, (state, action) => {
+    builder.addCase(registerUser.pending, (state) => {
       state.registerError = false;
       state.loading = true;
     });
 
-    builder.addCase(fetchUser.pending, (state, action) => {
+    builder.addCase(fetchUser.pending, (state) => {
       state.userError = false;
       state.loading = true;
     });
 
-    builder.addCase(updateUser.pending, (state, action) => {
+    builder.addCase(updateUser.pending, (state) => {
       state.userError = false;
       state.loading = true;
     });
 
-    builder.addCase(getLibraryCard.pending, (state, action) => {
+    builder.addCase(getLibraryCard.pending, (state) => {
       state.userError = false;
       state.loading = true;
     })
@@ -146,7 +168,7 @@ export const AuthenticationSlice = createSlice({
       state.loggedInUser = action.payload;
     });
     
-    builder.addCase(registerUser.fulfilled, (state, action) => {
+    builder.addCase(registerUser.fulfilled, (state) => {
       state.loading = false;
       state.registerSuccess = true;
     });
@@ -168,22 +190,22 @@ export const AuthenticationSlice = createSlice({
     });
     
     // Rejected logic
-    builder.addCase(loginUser.rejected, (state, action) => {
+    builder.addCase(loginUser.rejected, (state) => {
       state.loginError = true;
       state.loading = false;
     });
     
-    builder.addCase(registerUser.rejected, (state, action) => {
+    builder.addCase(registerUser.rejected, (state) => {
       state.registerError = true;
       state.loading = false;
     });
     
-    builder.addCase(fetchUser.rejected, (state, action) => {
+    builder.addCase(fetchUser.rejected, (state) => {
       state.userError = true;
       state.loading = false;
     });
     
-    builder.addCase(updateUser.rejected, (state, action) => {
+    builder.addCase(updateUser.rejected, (state) => {
       state.userError = true;
       state.loading = false;
     });

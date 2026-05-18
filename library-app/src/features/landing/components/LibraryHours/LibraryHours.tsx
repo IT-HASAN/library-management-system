@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './LibraryHours.css';
 
 export const LibraryHours:React.FC = () => {

@@ -1,17 +1,14 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../../redux/ReduxStore';
 import { loginUser, resetLoginError } from '../../../../redux/slices/AuthenticationSlice';
-
 import './LoginForm.css';
-import type { User } from '../../../../models/User';
 
 interface LoginFormProps {
   toggleRegister():void;
 }
 
 export const LoginForm:React.FC<LoginFormProps> = ({toggleRegister}) => {
-
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -59,7 +56,7 @@ export const LoginForm:React.FC<LoginFormProps> = ({toggleRegister}) => {
           ref={passwordRef}
         />
       </div>
-      <button className="login-form-submit" onClick={handleLoginUser}>Login</button>
+      <button type="button" className="login-form-submit" onClick={handleLoginUser}>Login</button>
       <p>
         Don't have an account?
         <span className="login-form-register" onClick={toggleRegister}>Create one here.</span>

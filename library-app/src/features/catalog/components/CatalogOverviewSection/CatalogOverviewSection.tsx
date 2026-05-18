@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
 import './CatalogOverviewSection.css';
 import type { Book } from '../../../../models/Book';
 import type { RootState } from '../../../../redux/ReduxStore';
@@ -18,7 +17,7 @@ export const CatalogOverviewSection:React.FC<CatalogOverviewSectionProps> = ({bo
   const navigate = useNavigate();
 
   const handleViewMore = () => {
-    navigate(`catalog?genre=${label}&subject=${label}`);
+    navigate(`/catalog?genre=${label}&subject=${label}`);
   }
 
   return (
@@ -27,7 +26,7 @@ export const CatalogOverviewSection:React.FC<CatalogOverviewSectionProps> = ({bo
         <h4>{label}</h4>
         <p className="catalog-overview-section-more" onClick={handleViewMore}>View more...</p>
       </div>
-      {books.length > 0 && !bookState.loading && <BookCarousel books={books} />}
+      {books.length > 0 && !bookState.loadingCatalog && <BookCarousel books={books} />}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { LibraryCardModel } from '../daos/LibraryCardDao';
-import { ILibraryCard, ILibraryCardDb } from '../models/LibraryCard';
+import { ILibraryCard, ILibraryCardDocument } from '../models/LibraryCard';
 import { LibraryCardDoesNotExistError } from '../utils/CustomErrors';
 
 export async function registerLibraryCard(card: ILibraryCard): Promise<ILibraryCard> {
@@ -7,13 +7,14 @@ export async function registerLibraryCard(card: ILibraryCard): Promise<ILibraryC
     { user: card.user },
     { $setOnInsert: { user: card.user } },
     { new: true, upsert: true }
-  ).lean<ILibraryCardDb>();
+  ).lean<ILibraryCardDocument>();
 
   if (!saved) {
     throw new Error("Failed to register library card");
   }
 
   return {
+    _id: saved._id.toString(),
     user: saved.user.toString()
   };
 }
@@ -21,7 +22,7 @@ export async function registerLibraryCard(card: ILibraryCard): Promise<ILibraryC
 export async function findLibraryCard(libraryCardId: string): Promise<ILibraryCard> {
   const card = await LibraryCardModel
     .findById(libraryCardId)
-    .lean<ILibraryCardDb>();
+    .lean<ILibraryCardDocument>();
 
   if (!card) {
     throw new LibraryCardDoesNotExistError(
@@ -30,6 +31,7 @@ export async function findLibraryCard(libraryCardId: string): Promise<ILibraryCa
   }
 
   return {
+    _id: card._id.toString(),
     user: card.user.toString()
   };
 }

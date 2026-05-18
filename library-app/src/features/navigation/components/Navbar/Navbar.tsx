@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
 import './Navbar.css';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../../redux/ReduxStore';
@@ -62,11 +61,11 @@ export const Navbar:React.FC = () => {
         {
           authState.loggedInUser ?
             <div className="navbar-option" onClick={navigateToProfile}>
-              <h2 style={{fontSize: "2rem"}}>{authState.loggedInUser.firstName}'s Account</h2>
+              <h3 style={{fontSize: "1.5rem"}}>{authState.loggedInUser.firstName}'s account</h3>
             </div>
             :
             <div className="navbar-option" onClick={toggleLogin}>
-              <h2 style={{fontSize: "2rem"}}>Login</h2>
+              <h3 style={{fontSize: "1.5rem"}}>Login</h3>
             </div>
         }
       </div>

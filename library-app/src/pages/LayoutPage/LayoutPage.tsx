@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-
 import './LayoutPage.css';
 import type { RootState } from '../../redux/ReduxStore';
 import { LibraryCardModal, LoginRegisterModal } from '../../features/authentication';
 import { Footer, Navbar } from '../../features/navigation';
+import { LoanBookModal } from '../../features/book';
 
 export default function LayoutPage() {
 
@@ -14,6 +14,7 @@ export default function LayoutPage() {
     <div className="layout-page">
       {state.displayLogin && <LoginRegisterModal />}
       {state.displayLibraryCard && <LibraryCardModal />}
+      {state.displayLoan && <LoanBookModal />}
       <Navbar />
       <Outlet />
       <Footer />

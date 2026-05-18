@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import './CatalogAdvancedSearch.css';
 
 export const CatalogAdvancedSearch:React.FC = () => {
@@ -71,7 +70,7 @@ export const CatalogAdvancedSearch:React.FC = () => {
           <input id="genre" name="genre" className="catalog-advanced-form-input" placeholder="Genre" ref={genreRef} />
         </div>
       </form>
-      <button className="catalog-advanced-search-button" onClick={search}>Search</button>
+      <button type="button" className="catalog-advanced-search-button" onClick={search}>Search</button>
     </div>
   )
 }
