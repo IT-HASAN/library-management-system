@@ -51,6 +51,29 @@ export async function findBookById(id:string):Promise<IBookLoanRecords> {
   return book as unknown as IBookLoanRecords;
 }
 
+export async function findBookByBarcode(
+  barcode: string
+): Promise<IBookLoanRecords> {
+
+  const book = await BookModel
+    .findOne({ barcode })
+    .populate({
+      path: 'records',
+      options: {
+        sort: { createdAt: -1 }
+      }
+    })
+    .lean<IBookLoanRecords>({ virtuals: true });
+
+  if (!book) {
+    throw new BookDoesNotExistError(
+      "The specified book does not exist"
+    );
+  }
+
+  return book;
+}
+
 export async function modifyBook(book:UpdateIBook):Promise<IBook> {
   const updatedBook = await BookModel
     .findByIdAndUpdate(book._id, book, { new: true })

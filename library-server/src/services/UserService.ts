@@ -27,7 +27,7 @@ export async function register(user:CreateIUser):Promise<IUser>{
 }
 
 export async function login(credentials:{email:string, password:string}):Promise<IUser> {
-  const {email, password} = credentials;
+  const { email, password } = credentials;
 
   try {
     const user = await UserModel.findOne({email}).select('+password').lean<IUserDocument>();

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { findAllBooks, registerBook, modifyBook, removeBook, queryBooks } from '../services/BookService';
+import { findAllBooks, findBookByBarcode, registerBook, modifyBook, removeBook, queryBooks } from '../services/BookService';
 import { BookDoesNotExistError } from '../utils/CustomErrors';
 
 async function getAllBooks(req:Request, res:Response) {
@@ -8,6 +8,30 @@ async function getAllBooks(req:Request, res:Response) {
     res.status(200).json({message: "Retrieved all books", count:books.length, books});
   } catch (error:any) {
     res.status(500).json({message: "Unable to retrieved books at this time", error});
+  }
+}
+
+export async function getBookByBarcode(req: Request, res: Response) {
+  try {
+    const { barcode } = req.params;
+
+    const book = await findBookByBarcode(barcode);
+
+    return res.status(200).json({
+      message: "Retrieved book",
+      book
+    });
+
+  } catch (e) {
+    if (e instanceof BookDoesNotExistError) {
+      return res.status(404).json({
+        message: e.message
+      });
+    }
+
+    return res.status(500).json({
+      message: "Internal server error"
+    });
   }
 }
 
@@ -66,4 +90,4 @@ async function searchForBooksByQuery(req:Request, res:Response) {
   res.status(200).json({message: "Retrieved books from query", page: books});
 }
 
-export default { getAllBooks, createBook, updateBook, deleteBook, searchForBooksByQuery };
+export default { getAllBooks, getBookByBarcode, createBook, updateBook, deleteBook, searchForBooksByQuery };

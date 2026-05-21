@@ -28,7 +28,7 @@ export const CatalogSearch:React.FC = () => {
           <h2>Searching books...</h2>
         </div>
         : 
-        !bookState.books.length || bookState.searchError ? 
+        bookState.searchError ? 
         <div className="staging-screen">
           <h2>No results found</h2>
         </div>

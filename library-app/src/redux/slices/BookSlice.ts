@@ -9,8 +9,10 @@ interface BookSliceState {
   loadingCatalog: boolean;
   loadingSearch: boolean;
   loadingLoan: boolean;
+  loadingBookBarcode: boolean;
   catalogError: boolean;
   searchError: boolean;
+  bookBarcodeError: boolean;
   checkoutBookError: boolean;
   checkinBookError: boolean;
   pagingInformation?: PageInfo;
@@ -22,8 +24,10 @@ const initialState:BookSliceState = {
   loadingCatalog: false,
   loadingSearch: false,
   loadingLoan: false,
+  loadingBookBarcode: false,
   catalogError: false,
   searchError: false,
+  bookBarcodeError: false,
   checkoutBookError: false,
   checkinBookError: false,
   pagingInformation: undefined
@@ -144,6 +148,37 @@ export const checkinBook = createAsyncThunk (
   } 
 )
 
+export const fetchBookByBarcode = createAsyncThunk (
+  'book/barcode',
+  async (payload:string, thunkAPI) => {
+    try {
+      const res = await axios.get(`http://localhost:8000/book/barcode/${payload}`);
+      // const res = await axios.get(`http://localhost:8000/book/query?barcode=${payload}`);
+      // const book = res.data.page.items?.[0];
+      // const book = res.data.page.item[0];
+      // const book = res.data.page.item ?? [];
+
+      // if (!book) {
+      //   return thunkAPI.rejectWithValue("Book not found");
+      // }
+      // if(!book || book.barcode !== payload) {
+      //   throw new Error();
+      // }
+
+      // return book;
+      return res.data.book;
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        return thunkAPI.rejectWithValue(
+          e.response?.data?.message || e.message
+        );
+      }
+      
+      return thunkAPI.rejectWithValue("Unknown error");
+    }
+  }
+)
+
 export const BookSlice = createSlice({
   name: 'book',
   initialState,
@@ -176,6 +211,12 @@ export const BookSlice = createSlice({
       state.checkinBookError = false;
       state.loadingLoan = true;
     });
+
+    builder.addCase(fetchBookByBarcode.pending, (state) => {
+      state.bookBarcodeError = false;
+      state.loadingBookBarcode = true;
+      state.currentBook = undefined;
+    });
     
     // Fulfilled logic
     builder.addCase(fetchAllBooks.fulfilled, (state, action) => {
@@ -205,7 +246,7 @@ export const BookSlice = createSlice({
       }
 
       state.loadingLoan = false;
-    })
+    });
 
     builder.addCase(checkinBook.fulfilled, (state, action) => {
       const book = state.books.find(
@@ -229,7 +270,12 @@ export const BookSlice = createSlice({
       }
 
       state.loadingLoan = false;
-    })
+    });
+
+    builder.addCase(fetchBookByBarcode.fulfilled, (state, action) => {
+      state.loadingBookBarcode = false;
+      state.currentBook = action.payload;
+    });
 
     // Rejected logic
     builder.addCase(fetchAllBooks.rejected, (state) => {
@@ -250,6 +296,11 @@ export const BookSlice = createSlice({
     builder.addCase(checkinBook.rejected, (state) => {
       state.checkinBookError = true;
       state.loadingLoan = false;
+    });
+
+    builder.addCase(fetchBookByBarcode.rejected, (state) => {
+      state.bookBarcodeError = true;
+      state.loadingBookBarcode = false;
     });
   }
 });

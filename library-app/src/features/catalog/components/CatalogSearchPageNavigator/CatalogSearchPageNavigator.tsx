@@ -9,7 +9,7 @@ export const CatalogSearchPageNavigator:React.FC = () => {
   const pagingInformation = useSelector((state:RootState) => state.book.pagingInformation);
 
   const navigate = useNavigate();
-  const {search} = useLocation();
+  const { search } = useLocation();
 
   const navigatePrevious = () => {
     if (pagingInformation && pagingInformation.currentPage !== 1) {
