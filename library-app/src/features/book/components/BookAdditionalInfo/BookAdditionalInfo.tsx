@@ -6,6 +6,17 @@ interface BookAdditionalInfoProps {
   book: Book;
 }
 
+function formatPublicationDate(date: string): string {
+  return new Date(date)
+    .toLocaleString('en-GB', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    })
+    .replace(',', '');
+}
+
 export const BookAdditionalInfo:React.FC<BookAdditionalInfoProps> = ({book}) => {
   return (
     <div className="additional-book-info">
@@ -17,7 +28,7 @@ export const BookAdditionalInfo:React.FC<BookAdditionalInfoProps> = ({book}) => 
         </div>
         <div className="additional-book-info-group">
           <h4 className="additional-book-info-text">Published On:</h4>
-          <p className="additional-book-info-text">{new Date(book.publicationDate).toDateString()}</p>
+          <p className="additional-book-info-text">{formatPublicationDate(book.publicationDate)}</p>
         </div>
         <div className="additional-book-info-group">
           <h4 className="additional-book-info-text">ISBN:</h4>

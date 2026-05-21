@@ -153,19 +153,7 @@ export const fetchBookByBarcode = createAsyncThunk (
   async (payload:string, thunkAPI) => {
     try {
       const res = await axios.get(`http://localhost:8000/book/barcode/${payload}`);
-      // const res = await axios.get(`http://localhost:8000/book/query?barcode=${payload}`);
-      // const book = res.data.page.items?.[0];
-      // const book = res.data.page.item[0];
-      // const book = res.data.page.item ?? [];
-
-      // if (!book) {
-      //   return thunkAPI.rejectWithValue("Book not found");
-      // }
-      // if(!book || book.barcode !== payload) {
-      //   throw new Error();
-      // }
-
-      // return book;
+      
       return res.data.book;
     } catch (e) {
       if (axios.isAxiosError(e)) {

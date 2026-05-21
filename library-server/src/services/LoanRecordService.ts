@@ -1,5 +1,5 @@
 import { LoanRecordModel } from '../daos/LoanRecordDao';
-import { ILoanRecord, ILoanRecordDocument, CreateILoanRecord, UpdateILoanRecord } from '../models/LoanRecord';
+import { ILoanRecord, ILoanRecordDocument, CreateILoanRecord, UpdateILoanRecord, ILoanRecordPopulated } from '../models/LoanRecord';
 import { LoanRecordDoesNotExistError } from '../utils/CustomErrors';
 
 function loanRecordMap(doc: ILoanRecordDocument): ILoanRecord {
@@ -15,17 +15,6 @@ function loanRecordMap(doc: ILoanRecordDocument): ILoanRecord {
     item: doc.item.toString(),
     createdAt: doc.createdAt,
     updatedAt: doc.updatedAt
-  };
-}
-
-function queryRecordMap(r: ILoanRecordDocument): ILoanRecord {
-  return {
-    ...r,
-    _id: r._id.toString(),
-    patron: r.patron.toString(),
-    employeeOut: r.employeeOut.toString(),
-    employeeIn: r.employeeIn?.toString(),
-    item: r.item.toString()
   };
 }
 
@@ -56,11 +45,15 @@ export async function findAllRecords(): Promise<ILoanRecord[]> {
   }
 }
 
-export async function queryRecords(params:{property:string, value:string | Date}): Promise<ILoanRecord[]> {
+export async function queryRecords(params:{property:string, value:string | Date}): Promise<ILoanRecordPopulated[]> {
   const records = await LoanRecordModel
     .find({[params.property]: params.value})
-    .lean<ILoanRecordDocument[]>()
+    .populate({
+      path: 'item',
+      select: 'title barcode cover authors'
+    })
+    .lean<ILoanRecordPopulated[]>()
     .sort("-loanedDate");
 
-  return records.map(queryRecordMap);
+  return records;
 }

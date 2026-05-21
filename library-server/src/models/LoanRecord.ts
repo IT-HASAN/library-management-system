@@ -1,4 +1,5 @@
 import { Types } from 'mongoose';
+import { IBook } from './Book';
 
 export type LoanRecordStatus = 'AVAILABLE' | 'LOANED'
 
@@ -23,6 +24,11 @@ export interface CreateILoanRecord extends ILoanRecordBase {}
 
 export interface UpdateILoanRecord extends ILoanRecordBase {
   _id: string;
+}
+
+export interface ILoanRecordPopulated
+  extends Omit<ILoanRecord, 'item'> {
+  item: IBook;
 }
 
 export interface ILoanRecordDb {

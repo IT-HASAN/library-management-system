@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { User, LoginUserPayload, RegisterUserPayload, FetchUserPayload  } from '../../models/User';
+import type { LoanRecordPopulated } from '../../models/LoanRecord';
 import axios from 'axios';
 
 interface AuthenticationSliceState {
@@ -11,6 +12,9 @@ interface AuthenticationSliceState {
   registerError: boolean;
   userError: boolean;
   registerSuccess: boolean;
+  loanHistory: LoanRecordPopulated[];
+  loadingLoanHistory: boolean;
+  loanHistoryError: boolean;
 }
 
 const initialState:AuthenticationSliceState = {
@@ -21,7 +25,10 @@ const initialState:AuthenticationSliceState = {
   loginError: false,
   registerError: false,
   userError: false,
-  registerSuccess: false
+  registerSuccess: false,
+  loanHistory: [],
+  loadingLoanHistory: false,
+  loanHistoryError: false
 }
 
 type ResetUser = FetchUserPayload['property'];
@@ -61,7 +68,7 @@ export const registerUser = createAsyncThunk(
 );
 
 export const fetchUser = createAsyncThunk(
-  'auth/fetch',
+  'auth/fetchUser',
   async (payload:FetchUserPayload, thunkAPI) => {
     try {
       const req = await axios.get(`http://localhost:8000/users/${payload.userId}`);
@@ -83,8 +90,33 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+export const fetchRecordsForUser = createAsyncThunk(
+  'auth/fetchRecordsForUser',
+  async (userId:string, thunkAPI) => {
+    try {
+      const res = await axios.post<{ records: LoanRecordPopulated[] }>('http://localhost:8000/loan/query', 
+        {
+          property: "patron",
+          value: userId
+        }
+      );
+
+      return res.data.records;
+
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        return thunkAPI.rejectWithValue(
+          e.response?.data?.message || e.message
+        );
+      }
+
+      return thunkAPI.rejectWithValue("Unknown error");
+    }
+  }
+);
+
 export const updateUser = createAsyncThunk(
-  'auth/update',
+  'auth/updateUser',
   async (payload:User, thunkAPI) => {
     try {
       const req = await axios.put('http://localhost:8000/users', payload);
@@ -101,7 +133,7 @@ export const updateUser = createAsyncThunk(
 )
 
 export const getLibraryCard = createAsyncThunk(
-  'auth/librarycard',
+  'auth/libraryCard',
   async (userId:string, thunkAPI) => {
     try {
       const req = await axios.post('http://localhost:8000/card/', {user:userId});
@@ -133,6 +165,9 @@ export const AuthenticationSlice = createSlice({
     },
     resetUser(state, action:PayloadAction<ResetUser>) {
       state[action.payload] = undefined;
+    },
+    resetLoanHistory(state) {
+      state.loanHistory = [];
     }
   },
   extraReducers: (builder) => {
@@ -152,6 +187,12 @@ export const AuthenticationSlice = createSlice({
       state.loading = true;
     });
 
+    builder.addCase(fetchRecordsForUser.pending, (state) => {
+      state.loanHistoryError = false;
+      state.loadingLoanHistory = true;
+      state.loanHistory = [];
+    });
+
     builder.addCase(updateUser.pending, (state) => {
       state.userError = false;
       state.loading = true;
@@ -160,22 +201,27 @@ export const AuthenticationSlice = createSlice({
     builder.addCase(getLibraryCard.pending, (state) => {
       state.userError = false;
       state.loading = true;
-    })
+    });
 
     // Fulfilled logic
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      state.loading = false;
       state.loggedInUser = action.payload;
+      state.loading = false;
     });
     
     builder.addCase(registerUser.fulfilled, (state) => {
-      state.loading = false;
       state.registerSuccess = true;
+      state.loading = false;
     });
 
     builder.addCase(fetchUser.fulfilled, (state, action) => {
       state[action.payload.property] = action.payload.user;
       state.loading = false;
+    });
+
+    builder.addCase(fetchRecordsForUser.fulfilled, (state, action) => {
+      state.loanHistory = action.payload;
+      state.loadingLoanHistory = false;
     });
     
     builder.addCase(updateUser.fulfilled, (state, action) => {
@@ -204,6 +250,11 @@ export const AuthenticationSlice = createSlice({
       state.userError = true;
       state.loading = false;
     });
+
+    builder.addCase(fetchRecordsForUser.rejected, (state) => {
+      state.loanHistoryError = true;
+      state.loadingLoanHistory = false;
+    });
     
     builder.addCase(updateUser.rejected, (state) => {
       state.userError = true;
@@ -212,6 +263,6 @@ export const AuthenticationSlice = createSlice({
   }
 });
 
-export const { resetLoginError, resetRegisterError, resetRegisterSuccess, resetUser } = AuthenticationSlice.actions;
+export const { resetLoginError, resetRegisterError, resetRegisterSuccess, resetUser, resetLoanHistory } = AuthenticationSlice.actions;
 
 export default AuthenticationSlice.reducer;
