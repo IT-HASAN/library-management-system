@@ -2,7 +2,13 @@
   width: 98%;
   height: fit-content;
   border-radius: 12px;
-  padding: 16px;
+  padding: 1rem;
   box-shadow: var(--background-secondary);
   background-color: var(--background-secondary);
+}
+
+@media screen and (max-width: 1070px) {
+  .book-of-the-week {
+    width: 100%;
+  }
 }

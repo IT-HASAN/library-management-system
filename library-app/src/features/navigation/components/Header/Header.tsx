@@ -1,12 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './Navbar.css';
+import './Header.css';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../../redux/ReduxStore';
 import { setDisplayLogin } from '../../../../redux/slices/ModalSlice';
-import { Book, Search } from '@mui/icons-material';
+import { Book, Search, Menu, Close } from '@mui/icons-material';
 
-export const Navbar:React.FC = () => {
+export const Header:React.FC = () => {
   
   const searchRef = useRef<HTMLInputElement>(null);
   const authState = useSelector((state:RootState) => state.authentication);
@@ -15,10 +15,15 @@ export const Navbar:React.FC = () => {
 
   const dispatch:AppDispatch = useDispatch();
 
+  const [mobileMenuClicked, setMobileMenuClicked] = useState(false);
+  const handleMobileMenuClicked = () => setMobileMenuClicked(!mobileMenuClicked);
+  const closeMobileMenu = () => setMobileMenuClicked(false);
+
   const handleEnterKey = (e:React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchRef && searchRef.current && searchRef.current.value.length > 0) {
       navigate(`/catalog?barcode=${searchRef.current.value}&title=${searchRef.current.value}&description=${searchRef.current.value}`);
       searchRef.current.value = '';
+      setMobileMenuClicked(false);
     }
   }
 
@@ -38,37 +43,50 @@ export const Navbar:React.FC = () => {
   }
   
   return (
-    <nav className="navbar">
-      <Link to="/" className="navbar-logo-section">
+    <header>
+      <Link to="/" className="logo-site-title">
         <Book sx={{
           fontSize: "3rem"
         }} />
-        <h1>My Library</h1>
+        <h1 style={{
+          lineHeight: "1"
+        }}>MERN Library</h1>
       </Link>
-      <div className="navbar-option-section">
-        <Link to="/catalog" className="navbar-option navbar-link">
-          <h2 style={{fontSize: "2rem"}}>View Catalog</h2>
+      <nav className={mobileMenuClicked ? "show-mobile-nav" : "hide-mobile-nav"}>
+        <Link to="/catalog" style={{width: "100%"}}>
+          <button className="navbar-btn" onClick={closeMobileMenu}>
+            View Catalog
+          </button>
         </Link>
         <div className="navbar-search-box">
           <input className="navbar-search-input" placeholder="Search Catalog" onKeyDown={handleEnterKey} ref={searchRef} />
-          <Search onClick={handleSearchIconClicked}
+          <Search onClick={() => {handleSearchIconClicked(); closeMobileMenu();}}
             sx={{
               cursor: "pointer",
               fontSize: "2rem"
             }}
           />
         </div>
-        {
-          authState.loggedInUser ?
-            <div className="navbar-option" onClick={navigateToProfile}>
-              <h3 style={{fontSize: "1.5rem"}}>{authState.loggedInUser.firstName}'s account</h3>
-            </div>
-            :
-            <div className="navbar-option" onClick={toggleLogin}>
-              <h3 style={{fontSize: "1.5rem"}}>Login</h3>
-            </div>
+        {authState.loggedInUser ?
+          <button className="logged-in-user navbar-btn" onClick={() => {navigateToProfile(); closeMobileMenu();}}>
+            {authState.loggedInUser.firstName}'s<br />account
+          </button>
+          :
+          <button className='navbar-btn' onClick={() => {toggleLogin(); closeMobileMenu();}}>
+            Login
+          </button>
         }
-      </div>
-    </nav>
+      </nav>
+      <span className="mobile-nav" onClick={handleMobileMenuClicked}>
+        {mobileMenuClicked ?
+          <Close sx={{
+            fontSize: "3rem"
+          }} /> 
+          : <Menu sx={{
+            fontSize: "3rem"
+          }} /> 
+        }  
+      </span>
+    </header>
   )
 }

@@ -27,6 +27,12 @@
   row-gap: 16px;
 }
 
+@media screen and (max-width: 695px) {
+  .catalog-search-item-area {
+    justify-content: center;
+  }
+}
+
 .catalog-search-pages {
   width: 100%;
   height: fit-content;

@@ -29,19 +29,22 @@ export const BookHistoryItem:React.FC<BookHistoryItemProps> = ({record}) => {
     <div className="book-history-item">
       <h4>Status: <span className={record.status === 'AVAILABLE' ? 'green' : 'red'}>{record.status}</span></h4>
       <div className="book-history-item-group">
-        <p style={{
-          cursor: 'pointer'
-        }}
-        onClick={visitProfile}>
-          Patron: {record.patron}
+        <p>
+          <b>Patron:</b> <span style={{
+              cursor: 'pointer',
+              color: 'blue',
+              textDecoration: 'underline'
+            }}
+            onClick={visitProfile}
+          >{record.patron}</span>
         </p>
-        <p>Loan Date: {formatLoanDate(record.loanedDate)}</p>
-        {record.status === 'AVAILABLE' && record.returnedDate && <p>Return Date: {formatLoanDate(record.returnedDate)}</p>}
+        <p><b>Loan Date:</b> {formatLoanDate(record.loanedDate)}</p>
+        {record.status === 'AVAILABLE' && record.returnedDate && <p><b>Return Date:</b> {formatLoanDate(record.returnedDate)}</p>}
       </div>
       <div className="book-history-item-group">
-        <p>Loaner: {record.employeeOut}</p>
-        <p>Return By Date: {formatLoanDate(record.dueDate)}</p>
-        {record.status === 'AVAILABLE' && record.employeeIn && <p>Returner: {record.employeeIn}</p>}
+        <p><b>Loaner:</b> {record.employeeOut}</p>
+        <p><b>Return By Date:</b> {formatLoanDate(record.dueDate)}</p>
+        {record.status === 'AVAILABLE' && record.employeeIn && <p><b>Returner:</b> {record.employeeIn}</p>}
       </div>
     </div>
   )

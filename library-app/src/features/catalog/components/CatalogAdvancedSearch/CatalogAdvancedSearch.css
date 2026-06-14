@@ -17,11 +17,27 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  margin-bottom: 16px;
+  margin: 16px 0;
 }
 
 .catalog-advanced-form-input-group {
   width: 15%;
+}
+
+@media screen and (max-width: 768px) {
+  .catalog-advanced-search-form {
+    flex-direction: column;
+  }
+
+  .catalog-advanced-form-input-group {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .catalog-advanced-form-input-group {
+    width: 100%;
+  }
 }
 
 .catalog-advanced-form-input {
@@ -53,6 +69,12 @@
   cursor: pointer;
   border-radius: 8px;
   background-color: var(--secondary);
+}
+
+@media screen and (max-width: 430px) {
+  .catalog-advanced-search-button {
+    width: 100%;
+  }
 }
 
 .catalog-advanced-search-button:hover {

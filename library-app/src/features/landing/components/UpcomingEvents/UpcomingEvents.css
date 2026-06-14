@@ -2,10 +2,16 @@
   width: 98%;
   height: fit-content;
   border-radius: 12px;
-  padding: 16px;
+  padding: 1rem;
   box-shadow: var(--box-shadow);
   background-color: var(--background-secondary);
-  margin-top: 16px;
+  margin-top: 1rem;
+}
+
+@media screen and (max-width: 1070px) {
+  .upcoming-events {
+    width: 100%;
+  }
 }
 
 .upcoming-events-header-group {

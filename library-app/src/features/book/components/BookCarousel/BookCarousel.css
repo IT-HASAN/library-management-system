@@ -41,3 +41,10 @@
   background-color: rgba(122, 121, 120, .3);
   border-radius: 100%;
 }
+
+@media screen and (max-width: 420px) {
+  .book-carousel-left-button,
+  .book-carousel-right-button {
+    top: 30%;
+  }
+}

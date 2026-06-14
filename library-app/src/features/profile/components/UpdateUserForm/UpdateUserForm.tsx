@@ -48,31 +48,25 @@ export const UpdateUserForm:React.FC = () => {
   return (
     <form className="update-user-form">
       <div className="update-user-input-group">
-        <h4>First Name:</h4>
-        <input className="update-user-input" name="firstName" value={user?.firstName ?? ""} onChange={updateUserState} disabled={userState.loggedInUser?._id !== userState.profileUser?._id} />
-        {userState.loggedInUser?._id === userState.profileUser?._id && <Create sx={{
-          position: 'absolute',
-          top: '65%',
-          right: '0'
-        }} />}
+        <label htmlFor="firstName">First Name:</label>
+        <div className="update-user-input-container">
+          <input className="update-user-input" name="firstName" value={user?.firstName ?? ""} onChange={updateUserState} disabled={userState.loggedInUser?._id !== userState.profileUser?._id} />
+          {userState.loggedInUser?._id === userState.profileUser?._id && <Create />}
+        </div>
       </div>
       <div className="update-user-input-group">
-        <h4>Last Name:</h4>
-        <input className="update-user-input" name="lastName" value={user?.lastName ?? ""} onChange={updateUserState} disabled={userState.loggedInUser?._id !== userState.profileUser?._id} />
-        {userState.loggedInUser?._id === userState.profileUser?._id && <Create sx={{
-          position: 'absolute',
-          top: '65%',
-          right: '0'
-        }} />}
+        <label htmlFor="lastName">Last Name:</label>
+        <div className="update-user-input-container">
+          <input className="update-user-input" name="lastName" value={user?.lastName ?? ""} onChange={updateUserState} disabled={userState.loggedInUser?._id !== userState.profileUser?._id} />
+          {userState.loggedInUser?._id === userState.profileUser?._id && <Create />}
+        </div>
       </div>
       <div className="update-user-input-group">
-        <h4>Email:</h4>
-        <input className="update-user-input" name="email" value={user?.email ?? ""} onChange={updateUserState} disabled={userState.loggedInUser?._id !== userState.profileUser?._id} />
-        {userState.loggedInUser?._id === userState.profileUser?._id && <Create sx={{
-          position: 'absolute',
-          top: '65%',
-          right: '0'
-        }} />}
+        <label htmlFor="email">Email:</label>
+        <div className="update-user-input-container">
+          <input className="update-user-input" name="email" value={user?.email ?? ""} onChange={updateUserState} disabled={userState.loggedInUser?._id !== userState.profileUser?._id} />
+          {userState.loggedInUser?._id === userState.profileUser?._id && <Create />}
+        </div>
       </div>
       {displayUpdate ? <button className="profile-button" onClick={submitUpdatedUser}>Update Profile</button> : <></>}
       {userState.loggedInUser?._id === userState.profileUser?._id ? <button className="profile-button" onClick={logout}>Logout of Account</button> : <></>}

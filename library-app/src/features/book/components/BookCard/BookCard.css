@@ -13,6 +13,12 @@
   cursor: pointer;
 }
 
+@media screen and (max-width: 430px) {
+  .book-card {
+    width: 95%;
+  }
+}
+
 .book-card-cover {
   height: 45%;
 }

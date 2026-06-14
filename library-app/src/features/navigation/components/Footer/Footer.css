@@ -8,6 +8,12 @@
   color: var(--text-secondary);
 }
 
+@media screen and (max-width: 625px) {
+  .footer {
+    flex-direction: column;
+  }
+}
+
 .footer-text {
   font-size: .85rem;
 }

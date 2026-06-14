@@ -28,3 +28,14 @@
 .additional-book-info-text {
   text-align: center;
 }
+
+@media screen and (max-width: 700px) {
+  .additional-book-info-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .additional-book-info-group {
+    width: 100%;
+  }
+}

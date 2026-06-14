@@ -50,20 +50,20 @@ export const RegisterForm:React.FC<RegisterFormProps> = ({toggleLogin}) => {
       {authState.registerError ? <p className="register-form-error">User already exists</p> : <></>}
       <div className="register-form-name-group">
         <div className="register-form-name-input-group">
-          <h6>First Name</h6>
+          <label htmlFor="first">First Name</label>
           <input className="register-form-input-name" placeholder="first" name="first" required ref={firstRef} />
         </div>
         <div className="register-form-name-input-group">
-          <h6>Last Name</h6>
+          <label htmlFor="last">Last Name</label>
           <input className="register-form-input-name" placeholder="last" name="last" required ref={lastRef} />
         </div>
       </div>
       <div className="register-form-input-group">
-        <h6>Email</h6>
+        <label htmlFor="email">Email</label>
         <input className="register-form-input" placeholder="email" name="email" required ref={emailRef} />
       </div>
       <div className="register-form-input-group">
-        <h6>Password</h6>
+        <label htmlFor="password">Password</label>
         <input className="register-form-input" placeholder="password" name="password" type="password" required ref={passwordRef} />
       </div>
       <button type="button" className="register-form-submit" onClick={handleRegisterUser}>Register</button>

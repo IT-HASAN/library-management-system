@@ -36,7 +36,7 @@ export const LoginForm:React.FC<LoginFormProps> = ({toggleRegister}) => {
       <h2>Please Login</h2>
       {auth.loginError ? <p className="login-form-error">Username or password incorrect</p> : <></>}
       <div className="login-form-input-group">
-        <h6>Email</h6>
+        <label htmlFor="email">Email</label>
         <input 
           className="login-form-input" 
           placeholder="email"
@@ -46,7 +46,7 @@ export const LoginForm:React.FC<LoginFormProps> = ({toggleRegister}) => {
         />
       </div>
       <div className="login-form-input-group">
-        <h6>Password</h6>
+        <label htmlFor="password">Password</label>
         <input 
           className="login-form-input" 
           placeholder="password"

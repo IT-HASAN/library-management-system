@@ -9,6 +9,13 @@
   padding: 8px;
 }
 
+@media screen and (max-width: 830px) {
+  .book-history-item {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
 .book-history-item-group {
   width: 49%;
   height: fit-content;
@@ -16,6 +23,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.book-history-item-group p {
+  font-size: 1rem;
+}
+
+@media screen and (max-width: 830px) {
+  .book-history-item-group {
+    width: 100%;
+  }
 }
 
 .red {

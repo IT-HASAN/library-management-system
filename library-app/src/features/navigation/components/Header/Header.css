@@ -1,0 +1,132 @@
+header {
+  width: 100%;
+  height: 100px;
+  background-color: var(--secondary);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 64px;
+  position: relative;
+}
+
+@media screen and (max-width: 1070px) {
+  header {
+    padding: 0 20px;
+    height: 80px;
+  }
+}
+
+.logo-site-title {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-decoration: none;
+  color: var(--text);
+}
+
+nav {
+  width: fit-content;
+  height: fit-content;
+  background-color: var(--secondary);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-btn {
+  height: 100%;
+  width: fit-content;
+  padding: 12px;
+  color: var(--text);
+  border: none;
+  border-radius: 22px;
+  cursor: pointer;
+}
+
+.navbar-btn:hover {
+  background-color: var(--primary);
+  color: var(--text-secondary);
+}
+
+@media screen and (max-width: 1070px) {
+  .navbar-btn {
+    width: 100%;
+  }
+}
+
+.logged-in-user {
+  font-size: 0.7rem;
+}
+
+.navbar-search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px var(--text) solid;
+  border-radius: 22px;
+  padding: 4px;
+}
+
+.navbar-search-input {
+  height: 2.5rem;
+  background-color: transparent;
+  border: none;
+  padding-left: 16px;
+  font-size: 1.75rem;
+  font-weight: 400;
+}
+
+::placeholder {
+  color: var(--text);
+  opacity: 1;
+}
+
+.navbar-search-input:focus {
+  outline: none;
+}
+
+@media screen and (max-width: 1070px) {
+  .navbar-search-input {
+    font-size: 1.25rem;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .navbar-search-box, .navbar-search-input {
+    width: 100%;
+  }
+}
+
+.mobile-nav {
+  display: none;
+}
+
+@media screen and (max-width: 1070px) {
+  nav {
+    position: absolute;
+    top: 80px;
+    right: 0;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    z-index: 10;
+    display: none;
+  }
+  
+  .mobile-nav {
+    display: block;
+    cursor: pointer;
+  }
+
+  .show-mobile-nav {
+    display: flex;
+  }
+
+  .hide-mobile-nav {
+    display: none;
+  }
+}
+

@@ -5,6 +5,13 @@
   justify-content: space-between;
 }
 
+@media screen and (max-width: 900px) {
+  .profile-page-cols {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
 .profile-page-left-column {
   height: 100%;
   width: 40%;
@@ -25,4 +32,11 @@
   border-radius: 12px;
   box-shadow: var(--box-shadow);
   padding: 16px;
+}
+
+@media screen and (max-width: 900px) {
+  .profile-page-left-column,
+  .profile-page-right-column {
+    width: 100%;
+  }
 }

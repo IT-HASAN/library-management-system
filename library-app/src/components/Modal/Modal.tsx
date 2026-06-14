@@ -10,7 +10,7 @@ export const Modal:React.FC<ModalProps> = ({toggleModal, content}) => {
   return (
     <div className="modal-bg">
       <div className="modal">
-        <h5 className="modal-exit" onClick={toggleModal}>x</h5>
+        <span className="modal-exit" onClick={toggleModal}>x</span>
         {content}
       </div>
     </div>
