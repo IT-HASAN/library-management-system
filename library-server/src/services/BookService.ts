@@ -74,6 +74,38 @@ export async function findBookByBarcode(
   return book;
 }
 
+export async function findFeaturedBook(): Promise<IBookLoanRecords> {
+  const books = await BookModel
+  .find()
+  .populate({
+    path: 'records',
+    options: {
+      sort: { createdAt: -1 }
+    }
+  })
+  .lean<IBookLoanRecords[]>({ virtuals: true });
+
+  if (!books.length) {
+    throw new BookDoesNotExistError(
+      "No book available"
+    );
+  }
+
+  const now = new Date();
+
+  const yearBeginning = new Date(
+    now.getFullYear(), 0, 1
+  );
+
+  const days = Math.floor(
+    (now.getTime() - yearBeginning.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  const weekNumber = Math.floor(days / 7);
+
+  return books[weekNumber % books.length];
+}
+
 export async function modifyBook(book:UpdateIBook):Promise<IBook> {
   const updatedBook = await BookModel
     .findByIdAndUpdate(book._id, book, { new: true })

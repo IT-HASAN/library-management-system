@@ -6,30 +6,36 @@ import type { PageInfo } from '../../models/Page';
 interface BookSliceState {
   books: Book[];
   currentBook?: Book;
+  featuredBook?: Book; 
   loadingCatalog: boolean;
   loadingSearch: boolean;
   loadingLoan: boolean;
   loadingBookBarcode: boolean;
+  loadingFeaturedBook: boolean;
   catalogError: boolean;
   searchError: boolean;
   bookBarcodeError: boolean;
   checkoutBookError: boolean;
   checkinBookError: boolean;
+  featuredBookError: boolean;
   pagingInformation?: PageInfo;
 }
 
 const initialState:BookSliceState = {
   books: [],
   currentBook: undefined,
+  featuredBook: undefined,
   loadingCatalog: false,
   loadingSearch: false,
   loadingLoan: false,
   loadingBookBarcode: false,
+  loadingFeaturedBook: false,
   catalogError: false,
   searchError: false,
   bookBarcodeError: false,
   checkoutBookError: false,
   checkinBookError: false,
+  featuredBookError: false,
   pagingInformation: undefined
 }
 
@@ -167,6 +173,25 @@ export const fetchBookByBarcode = createAsyncThunk (
   }
 )
 
+export const fetchFeaturedBook = createAsyncThunk (
+  'book/featured',
+  async (_, thunkAPI) => {
+    try {
+      const res = await axios.get('http://localhost:8000/book/featured');
+
+      return res.data.book;
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        return thunkAPI.rejectWithValue(
+          e.response?.data?.message || e.message
+        );
+      }
+      
+      return thunkAPI.rejectWithValue("Unknown error");
+    }
+  }
+)
+
 export const BookSlice = createSlice({
   name: 'book',
   initialState,
@@ -205,6 +230,11 @@ export const BookSlice = createSlice({
       state.loadingBookBarcode = true;
       state.currentBook = undefined;
     });
+
+    builder.addCase(fetchFeaturedBook.pending, (state) => {
+      state.featuredBookError = false;
+      state.loadingFeaturedBook = true;
+    })
     
     // Fulfilled logic
     builder.addCase(fetchAllBooks.fulfilled, (state, action) => {
@@ -265,6 +295,11 @@ export const BookSlice = createSlice({
       state.currentBook = action.payload;
     });
 
+    builder.addCase(fetchFeaturedBook.fulfilled, (state, action) => {
+      state.loadingFeaturedBook = false;
+      state.featuredBook = action.payload;
+    })
+
     // Rejected logic
     builder.addCase(fetchAllBooks.rejected, (state) => {
       state.catalogError = true;
@@ -290,6 +325,11 @@ export const BookSlice = createSlice({
       state.bookBarcodeError = true;
       state.loadingBookBarcode = false;
     });
+
+    builder.addCase(fetchFeaturedBook.rejected, (state) => {
+      state.featuredBookError = true;
+      state.loadingFeaturedBook = false;
+    })
   }
 });
 

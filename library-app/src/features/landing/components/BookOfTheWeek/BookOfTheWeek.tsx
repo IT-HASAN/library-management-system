@@ -1,29 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import type { AppDispatch, RootState } from '../../../../redux/ReduxStore';
 import './BookOfTheWeek.css';
 import { BookInformation } from '../../../book';
+import { fetchFeaturedBook } from '../../../../redux/slices/BookSlice';
 
 export const BookOfTheWeek:React.FC = () => {
+  const dispatch:AppDispatch = useDispatch(); 
+  const {
+    featuredBook,
+    loadingFeaturedBook,
+    featuredBookError
+  } = useSelector((state:RootState) => state.book);
+
+  useEffect(() => {
+    dispatch(fetchFeaturedBook());
+  }, [dispatch]);
+
   return (
     <div className="book-of-the-week">
       <h1>Book of the Week:</h1>
-      <BookInformation 
-        book={
-          {
-            _id: "1234",
-            barcode: "5678",
-            cover: "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1679700759i/123829884.jpg",
-            title: "Java: The Ultimate Beginner's Guide to Learn Java Quickly With no Prior Experience",
-            authors: ["Mark Read"],
-            description: "Immerse yourself in the wealth of notions, exercises and practical examples made easily digestible for effortless learning and prompt gratification. You will be amazed at the rapid progress as you move forward through the book's contents towards total savvy.",
-            subjects: ["Java", "Learning"],
-            publicationDate: new Date("2020-01-01"),
-            publisher: "Byte Code LLC",
-            pages: 200,
-            genre: "Non-fiction",
-            records: []
-          }
-        }
-      />
+      {loadingFeaturedBook ? (
+        <div className="staging-featured-book">
+          <p>Loading this week's featured book...</p>
+        </div>
+      ) : featuredBookError ? (
+        <div className="staging-featured-book">
+          <p>Unable to load featured book.</p>
+        </div>
+      ) : featuredBook ? (
+        <BookInformation book={featuredBook} />
+      ) : (
+        <div className="staging-featured-book">
+          <p>No featured book available.</p>
+        </div>
+      )
+
+      }
     </div>
   )
 }

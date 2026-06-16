@@ -5,6 +5,7 @@ import { Schemas, ValidateSchema } from '../middlewares/Validation';
 const router = express.Router();
 
 router.get('/', BookController.getAllBooks);
+router.get('/featured', BookController.getFeaturedBook);
 router.post('/', ValidateSchema(Schemas.book.create, 'body'), BookController.createBook);
 router.put('/', ValidateSchema(Schemas.book.update, 'body'), BookController.updateBook);
 router.delete('/:barcode', ValidateSchema(Schemas.book.delete, 'params'), BookController.deleteBook);
