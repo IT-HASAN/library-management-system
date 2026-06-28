@@ -1,29 +1,46 @@
 /* Google font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+/* Website colors */
 :root {
-  --background-primary: #eef0f2;
-  --background-secondary: #f3f3f3;
-  --text: #1c120c;
-  --text-secondary: #7a7978;
-  --primary: #3626a7;
-  --secondary: #0daB76;
+  --site-bar: #26b605;
+  --site-logo: #f7bd2f;
+  --nav-btn: #b0dd6f;
+  --nav-btn-hover: #d4eeb5;
+  --primary-bg: #eef0f2;
+  --secondary-bg: #f3f3f3;
+  --heading-txt: #2038b0;
+  --body-txt: #1c120c;
+  --hyperlink: #0000ff;
+  --form-input-bg: #f0f0f0;
+  --form-input-bd: #244677;
+  --form-input-placeholder-txt: #7a7978;
+  --even-hrs-table-rows: #d7f8eb;
+  --odd-hrs-table-rows: #dceef0;
+  --divider: rgba(122, 121, 120, .8);
   --box-shadow: rgba(100, 100, 111, .2) 0px 7px 29px 0px;
-  --form-error: #cb4c4e;
-  --even-table-rows: #ebe9f6;
-  --odd-table-rows: #e7f7f1;
+  --modal-bg: rgba(0,0,0,0.2);
+  --exit-modal-btn: #090808;
+  --exit-modal-btn-hover: #9f1313;
+  --exit-modal-txt: #eeeeee;
+  --form-error-msg: #ec2f3b;
+  --content-btn: #0099cc;
+  --content-btn-hover: #66c0f4;
+  --book-available-status: #3cb043;
+  --book-unavailable-status: #cb4c4e;
+  --book-available-status-hover: #77d17d;
+  --book-unavailable-status-hover: #e8797a;
 }
 
 html, body, #root {
   width: 100%;
   height: 100%;
   font-family: 'Inter', san-serif;
-  background-color: var(--background-primary);
-  color: var(--text);
+  background-color: var(--primary-bg);
+  color: var(--body-txt);
 }
 
 /* Reset global css */
-
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -46,7 +63,11 @@ input, button, textarea, select {
   font: inherit;
 }
 
-p, h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4 {
+  color: var(--heading-txt);
+}
+
+p, h1, h2, h3, h4 {
   overflow-wrap: break-word;
 }
 
@@ -55,7 +76,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 p {
-  font-size: 1.25rem;
+  font-size: 1.10rem;
   font-weight: 400;
 }
 
@@ -82,7 +103,7 @@ p {
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  background-color: var(--background-primary);
+  background-color: var(--primary-bg);
   box-shadow: var(--box-shadow);
 }
 
@@ -92,6 +113,7 @@ p {
   }
 }
 
+/* Used in loading components and for if loading fails */
 .staging-screen {
   width: 100%;
   height: 100vh;

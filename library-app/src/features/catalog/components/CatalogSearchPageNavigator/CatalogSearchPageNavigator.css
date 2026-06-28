@@ -32,8 +32,15 @@
   margin: 0 8px;
 }
 
+.number-active {
+  background-color: var(--content-btn);
+}
+
+.catalog-search-page-number:hover {
+  background-color: var(--content-btn-hover);
+}
+
 .number-active,
 .catalog-search-page-number:hover {
-  background-color: rgba(54, 38, 167, .3);
-  border-radius: 3px;
+  border-radius: 30px;
 }

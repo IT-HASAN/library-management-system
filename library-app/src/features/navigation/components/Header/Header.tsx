@@ -4,8 +4,7 @@ import './Header.css';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../../redux/ReduxStore';
 import { setDisplayLogin } from '../../../../redux/slices/ModalSlice';
-import { Book, Search, Menu, Close } from '@mui/icons-material';
-
+import { Book, MenuBook, Search, Login, AccountCircle, Menu, Close } from '@mui/icons-material';
 export const Header:React.FC = () => {
   
   const searchRef = useRef<HTMLInputElement>(null);
@@ -49,12 +48,22 @@ export const Header:React.FC = () => {
           fontSize: "3rem"
         }} />
         <h1 style={{
-          lineHeight: "1"
-        }}>MERN Library</h1>
+          lineHeight: "1",
+          color: "#000000"
+        }}>
+          MERN Library
+        </h1>
       </Link>
       <nav className={mobileMenuClicked ? "show-mobile-nav" : "hide-mobile-nav"}>
-        <Link to="/catalog" style={{width: "100%"}}>
+        <Link to="/catalog" style={{
+          width: "100%", 
+          textDecoration: "none"
+          }}
+        >
           <button className="navbar-btn" onClick={closeMobileMenu}>
+            <MenuBook sx={{
+              fontSize: "1.5rem"
+            }}/>
             View Catalog
           </button>
         </Link>
@@ -69,10 +78,16 @@ export const Header:React.FC = () => {
         </div>
         {authState.loggedInUser ?
           <button className="logged-in-user navbar-btn" onClick={() => {navigateToProfile(); closeMobileMenu();}}>
-            {authState.loggedInUser.firstName}'s<br />account
+            <AccountCircle sx={{
+              fontSize: "1.5rem"
+            }}/>
+            {authState.loggedInUser.firstName}
           </button>
           :
           <button className='navbar-btn' onClick={() => {toggleLogin(); closeMobileMenu();}}>
+            <Login sx={{
+              fontSize: "1.5rem"
+            }}/>
             Login
           </button>
         }

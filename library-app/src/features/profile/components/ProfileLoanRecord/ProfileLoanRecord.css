@@ -1,7 +1,23 @@
 .profile-record {
   width: 100%;
   height: fit-content;
-  border-bottom: 1px solid rgba(0,0,0,.2);
+  border-bottom: 1px solid var(--divider);
   padding-top: 6px;
   padding-bottom: 6px;
+}
+
+.book-title {
+  color: var(--heading-txt);
+}
+
+.returned {
+  color: var(--book-available-status);
+}
+
+.loaned {
+  color: var(--book-unavailable-status);
+}
+
+.book-title, .returned, .loaned {
+  font-weight: bold;
 }

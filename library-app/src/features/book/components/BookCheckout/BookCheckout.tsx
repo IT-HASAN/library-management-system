@@ -41,13 +41,34 @@ export const BookCheckout:React.FC = () => {
       {
         book && user &&
         <form className="book-checkout-form">
-          <h3>Loan Book Titled: {book.title}</h3>
-          <h4>Enter patrons Library Card: </h4>
+          <h2 className="book-checkout-title">Loan Book Titled:<br />{book.title}</h2>
           {bookState.checkoutBookError ? <p className="book-checkout-form-error">Invalid Library Card ID</p> : <></>}
-          <input className="book-checkout-input" placeholder="Library Card ID" ref={libraryCardRef} />
-          <h4>Checkout Employee ID: </h4>
-          <input className="book-checkout-input" value={user._id} disabled />
-          <button type="button" className="book-checkout-button" onClick={checkout}>Loan Book</button>
+          <div className="checkout-form-input-group">
+            <label htmlFor="patron-library-id">Patron Library Card:</label>
+            <input 
+              className="book-checkout-input"
+              placeholder="Enter Patron Library Card ID"
+              name="patron-library-id"
+              required
+              ref={libraryCardRef} 
+            />
+          </div>
+          <div className="checkout-form-input-group">
+            <label htmlFor="checkout-employee-id">Checkout Employee ID:</label>
+            <input
+              className="book-checkout-input"
+              name="checkout-employee-id"
+              value={user._id} 
+              disabled 
+            />
+          </div>
+          <button 
+            type="button" 
+            className="book-checkout-button" 
+            onClick={checkout}
+          >
+            Loan Book
+          </button>
         </form>
       }
     </div>

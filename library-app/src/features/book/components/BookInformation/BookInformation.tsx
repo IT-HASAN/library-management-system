@@ -1,7 +1,6 @@
 import React from 'react';
 import './BookInformation.css';
 import type { Book } from '../../../../models/Book';
-import { mapAuthorsToString } from '../../utils/BookUtils';
 
 interface BookInfoProps {
   book: Book;
@@ -14,7 +13,7 @@ export const BookInformation:React.FC<BookInfoProps> = ({book}) => {
         <img className="book-info-cover" src={book.cover} />
         <div>
           <h2>{book.title}</h2>
-          <h3>{mapAuthorsToString(book)}</h3>
+          <h3>{book.authors.join(', ')}</h3>
           <p>{book.description}</p>
         </div>
       </div>

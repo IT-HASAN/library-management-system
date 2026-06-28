@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './BookCard.css';
 import type { Book } from '../../../../models/Book';
-import { mapAuthorsToString } from '../../utils/BookUtils';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../../redux/ReduxStore';
 import { setCurrentBook } from '../../../../redux/slices/BookSlice';
@@ -60,7 +59,7 @@ export const BookCard:React.FC<BookCardProps> = ({book}) => {
       <img className="book-card-cover" src={book.cover} />
       <div className="book-card-info">
         <h1 className="book-card-title">{book.title}</h1>
-        <h3 className="book-card-author">{mapAuthorsToString(book)}</h3>
+        <h3 className="book-card-author">{book.authors.join(', ')}</h3>
         <p className="book-card-description">{book.description}</p>
       </div>
       <button className={buttonClass} onClick={handleLoan}>Status: {available ? "AVAILABLE" : "UNAVAILABLE"}</button>

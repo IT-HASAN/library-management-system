@@ -34,9 +34,7 @@ export const BookOfTheWeek:React.FC = () => {
         <div className="staging-featured-book">
           <p>No featured book available.</p>
         </div>
-      )
-
-      }
+      )}
     </div>
   )
 }

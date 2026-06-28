@@ -6,12 +6,12 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  background-color: var(--background-primary);
+  background-color: var(--primary-bg);
   box-shadow: var(--box-shadow);
   margin: 0 auto;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1300px) {
   .home-page-container {
     width: 100%;
   }

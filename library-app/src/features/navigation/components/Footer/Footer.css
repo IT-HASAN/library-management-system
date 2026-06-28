@@ -4,45 +4,6 @@
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  background-color: var(--primary);
-  color: var(--text-secondary);
-}
-
-@media screen and (max-width: 625px) {
-  .footer {
-    flex-direction: column;
-  }
-}
-
-.footer-text {
-  font-size: .85rem;
-}
-
-.footer-text:hover {
-  color: var(--background-secondary);
-  font-weight: 600;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.footer-social-cluster {
-  height: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.footer-social-text {
-  font-size: .85rem;
-  margin-right: 10px;
-}
-
-.footer-social {
-  cursor: pointer;
-  margin-right: 8px;
-  margin-left: 8px;
-}
-
-.footer-social:hover {
-  color: var(--background-secondary);
+  background-color: var(--site-bar);
+  color: var(--body-txt);
 }

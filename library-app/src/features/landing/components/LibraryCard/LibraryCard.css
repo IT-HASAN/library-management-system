@@ -3,8 +3,8 @@
   height: fit-content;
   border-radius: 12px;
   padding: 1rem;
+  background-color: var(--secondary-bg);
   box-shadow: var(--box-shadow);
-  background-color: var(--background-secondary);
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
@@ -21,11 +21,10 @@
 .get-library-card-img {
   width: 50%;
   margin-bottom: 16px;
-
 }
 
-.get-library-card-link:hover {
-  color: var(--primary);
+.get-library-card-link {
+  color: var(--hyperlink);
   cursor: pointer;
   text-decoration: underline;
 }

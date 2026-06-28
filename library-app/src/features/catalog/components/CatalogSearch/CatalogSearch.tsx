@@ -25,12 +25,12 @@ export const CatalogSearch:React.FC = () => {
       </div>
       {bookState.loadingSearch ? 
         <div className="staging-screen">
-          <h2>Searching books...</h2>
+          <p>Searching books...</p>
         </div>
         : 
         bookState.searchError ? 
         <div className="staging-screen">
-          <h2>No results found</h2>
+          <p>No results found</p>
         </div>
         : 
         <>

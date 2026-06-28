@@ -51,25 +51,25 @@ export const RegisterForm:React.FC<RegisterFormProps> = ({toggleLogin}) => {
       <div className="register-form-name-group">
         <div className="register-form-name-input-group">
           <label htmlFor="first">First Name</label>
-          <input className="register-form-input-name" placeholder="first" name="first" required ref={firstRef} />
+          <input className="register-form-input-name" name="first" required ref={firstRef} />
         </div>
         <div className="register-form-name-input-group">
           <label htmlFor="last">Last Name</label>
-          <input className="register-form-input-name" placeholder="last" name="last" required ref={lastRef} />
+          <input className="register-form-input-name" name="last" required ref={lastRef} />
         </div>
       </div>
       <div className="register-form-input-group">
         <label htmlFor="email">Email</label>
-        <input className="register-form-input" placeholder="email" name="email" required ref={emailRef} />
+        <input className="register-form-input" name="email" required ref={emailRef} />
       </div>
       <div className="register-form-input-group">
         <label htmlFor="password">Password</label>
-        <input className="register-form-input" placeholder="password" name="password" type="password" required ref={passwordRef} />
+        <input className="register-form-input" name="password" type="password" required ref={passwordRef} />
       </div>
       <button type="button" className="register-form-submit" onClick={handleRegisterUser}>Register</button>
       {authState.registerSuccess ? 
         <p>Registered Successfully.
-          <span className="register-form-login" onClick={toggleLogin}>Login here.</span>
+          <span className="register-form-login" onClick={toggleLogin}>Login here</span>
         </p> : <></>
       }
     </form>

@@ -8,7 +8,7 @@ interface BookSubjectProps {
 export const BookSubjects:React.FC<BookSubjectProps> = ({subjects}) => {
   return (
     <div className="book-subjects">
-      <h3>Book Subjects:</h3>
+      <h2>Book Subjects:</h2>
       <div className="book-info-subjects-box">
         {
           subjects.map((subject, index) => {

@@ -1,7 +1,7 @@
 .book-card {
   height: 400px;
   width: 300px;
-  background-color: var(--background-secondary);
+  background-color: var(--secondary-bg);
   border-radius: 12px;
   padding: 8px;
   display: flex;
@@ -64,24 +64,22 @@
 }
 
 .available {
-  background-color: var(--secondary);
+  background-color: var(--book-available-status);
 }
 
 .unavailable {
-  background-color: var(--form-error);
+  background-color: var(--book-unavailable-status);
 }
 
 .checkout:hover,
 .checkin:hover {
   cursor: pointer;
-  background-color: var(--background-secondary);
 }
 
 .checkout:hover {
-  border: 2px solid var(--secondary);
+  background-color: var(--book-available-status-hover);
 }
 
 .checkin:hover {
-  border: 2px solid var(--form-error);
+  background-color: var(--book-unavailable-status-hover);
 }
-

@@ -3,8 +3,8 @@
   height: fit-content;
   border-radius: 12px;
   padding: 1rem;
+  background-color: var(--secondary-bg);
   box-shadow: var(--box-shadow);
-  background-color: var(--background-secondary);
   margin-top: 1rem;
 }
 

@@ -28,7 +28,7 @@
 
 .profile-page-left-column,
 .profile-page-right-column {
-  background-color: var(--background-secondary);
+  background-color: var(--secondary-bg);
   border-radius: 12px;
   box-shadow: var(--box-shadow);
   padding: 16px;

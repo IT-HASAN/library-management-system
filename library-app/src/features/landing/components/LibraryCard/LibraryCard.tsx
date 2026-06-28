@@ -17,7 +17,7 @@ export const LibraryCard:React.FC = () => {
     <div className="get-library-card">
       <h2>Get A Library Card</h2>
       <img src={libraryCard} className="get-library-card-img" />
-      <p>Learn how to get your own library card <span className="get-library-card-link" onClick={handleDisplayModal}>here.</span></p>
+      <p>Learn how to get your own library card <span className="get-library-card-link" onClick={handleDisplayModal}>here</span></p>
     </div>
   )
 }

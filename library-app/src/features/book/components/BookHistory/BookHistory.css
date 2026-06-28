@@ -2,7 +2,7 @@
   width: 100%;
   height: fit-content;
   overflow: hidden;
-  background-color: var(--background-secondary);
+  background-color: var(--secondary-bg);
   padding: 16px;
   margin-top: 16px;
   border-radius: 12px;

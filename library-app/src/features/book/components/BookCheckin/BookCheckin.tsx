@@ -29,10 +29,25 @@ export const BookCheckin:React.FC = () => {
       {
         book && user && 
         <div className="book-checkin-form">
-          <h3>Check In Book Titled: {book.title}</h3>
-          <h4>Check In Employee ID: </h4>
-          <input className="book-checkin-input" value={user._id} disabled />
-          <button type="button" className="book-checkin-button" onClick={checkin}>Check In Book</button>
+          <form className="book-checkin-form">
+            <h2 className="book-checkin-title">Check In Book Titled:<br />{book.title}</h2>
+            <div className="checkin-form-input-group">
+              <label htmlFor="checkout-employee-id">Check In Employee ID:</label>
+              <input 
+                className="book-checkin-input" 
+                value={user._id}
+                name="checkout-employee-id"
+                disabled 
+              />
+            </div>
+            <button 
+              type="button" 
+              className="book-checkin-button" 
+              onClick={checkin}
+            >
+              Return Book
+            </button>
+          </form>
         </div>
       }
     </div>

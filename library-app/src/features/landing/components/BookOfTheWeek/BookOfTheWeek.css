@@ -3,8 +3,8 @@
   height: fit-content;
   border-radius: 12px;
   padding: 1rem;
-  box-shadow: var(--background-secondary);
-  background-color: var(--background-secondary);
+  background-color: var(--secondary-bg);
+  box-shadow: var(--box-bg);
 }
 
 @media screen and (max-width: 1070px) {

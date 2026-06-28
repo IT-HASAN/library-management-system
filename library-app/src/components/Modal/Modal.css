@@ -1,6 +1,6 @@
 .modal-bg {
   z-index: 1;
-  background-color: rgba(0,0,0,0.2);
+  background-color: var(--modal-bg);
   width: 100%;
   height: 100%;
   position: absolute;
@@ -17,19 +17,25 @@
   align-items: center;
   justify-content: flex-start;
   border-radius: 16px;
+  background-color: var(--primary-bg);
   box-shadow: var(--box-shadow);
-  background-color: var(--background-primary);
   position: sticky;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-bottom: 16px;
 }
 
 .modal-exit {
   align-self: flex-end;
-  cursor: pointer;
   font-size: 1.3rem;
+  padding: 0 10px;
+  background-color: var(--exit-modal-btn);
+  color: var(--exit-modal-txt);
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.modal-exit:hover {
+  cursor: pointer;
+  background-color: var(--exit-modal-btn-hover);
 }

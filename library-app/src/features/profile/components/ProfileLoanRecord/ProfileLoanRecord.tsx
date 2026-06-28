@@ -20,11 +20,11 @@ function formatLoanDate(date: string): string {
 export const ProfileLoanRecord:React.FC<ProfileLoanRecordProps> = ({record}) => {
   return (
     <div className="profile-record">
-      <h4>Title: {record.item.title}</h4>
-      <h4>Status: {record.status === 'AVAILABLE' ? 'RETURNED' : 'LOANED'}</h4>
-      <p>Loan Date: {formatLoanDate(record.loanedDate)}</p>
-      <p>Return by Date: {formatLoanDate(record.dueDate)}</p>
-      {record.returnedDate && <p>Date Returned: {formatLoanDate(record.returnedDate)}</p>}
+      <p><b>Title:</b> <span className="book-title">{record.item.title}</span></p>
+      <p><b>Status:</b> {record.status === 'AVAILABLE' ? <span className="returned">RETURNED</span> : <span className="loaned">LOANED</span>}</p>
+      <p><b>Loan Date:</b> {formatLoanDate(record.loanedDate)}</p>
+      <p><b>Return By Date:</b> {formatLoanDate(record.dueDate)}</p>
+      {record.returnedDate && <p><b>Date Returned:</b> {formatLoanDate(record.returnedDate)}</p>}
     </div>
   )
 }

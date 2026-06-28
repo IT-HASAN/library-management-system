@@ -1,7 +1,7 @@
 .additional-book-info {
   width: 100%;
   height: fit-content;
-  background-color: var(--background-secondary);
+  background-color: var(--secondary-bg);
   border-radius: 12px;
   margin-top: 16px;
   padding: 16px;

@@ -5,9 +5,9 @@ export const LibraryHours:React.FC = () => {
   return (
     <div className="library-hours">
       <h3>Library Hours</h3>
-      <div className="library-hours-table" id="hours">
+      <div className="library-hours-table">
         <table>
-          <tbody>
+          <tbody id="hours">
             <tr>
               <td>Monday</td>
               <td>10 AM - 6 PM</td>

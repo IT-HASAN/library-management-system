@@ -38,8 +38,7 @@ export const LoginForm:React.FC<LoginFormProps> = ({toggleRegister}) => {
       <div className="login-form-input-group">
         <label htmlFor="email">Email</label>
         <input 
-          className="login-form-input" 
-          placeholder="email"
+          className="login-form-input"
           name="email"
           required
           ref={emailRef}
@@ -48,8 +47,7 @@ export const LoginForm:React.FC<LoginFormProps> = ({toggleRegister}) => {
       <div className="login-form-input-group">
         <label htmlFor="password">Password</label>
         <input 
-          className="login-form-input" 
-          placeholder="password"
+          className="login-form-input"
           name="password"
           type="password"
           required
@@ -59,7 +57,7 @@ export const LoginForm:React.FC<LoginFormProps> = ({toggleRegister}) => {
       <button type="button" className="login-form-submit" onClick={handleLoginUser}>Login</button>
       <p>
         Don't have an account?
-        <span className="login-form-register" onClick={toggleRegister}>Create one here.</span>
+        <span className="login-form-register" onClick={toggleRegister}>Create one here</span>
       </p>
     </form>
   )

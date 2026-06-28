@@ -42,32 +42,32 @@ export const CatalogAdvancedSearch:React.FC = () => {
 
   return (
     <div className="catalog-advanced-search">
-      <h2>Advanced Book Search</h2>
+      <h1>Advanced book search</h1>
       <p>Fill in as many or few fields to narrow down your search results</p>
       <form className="catalog-advanced-search-form">
         <div className="catalog-advanced-form-input-group">
           <label htmlFor="isbn">ISBN</label>
-          <input id="isbn" name="isbn" className="catalog-advanced-form-input" placeholder="ISBN" ref={isbnRef} />
+          <input id="isbn" name="isbn" className="catalog-advanced-form-input" ref={isbnRef} />
         </div>
         <div className="catalog-advanced-form-input-group">
           <label htmlFor="title">Title</label>
-          <input id="title" name="title" className="catalog-advanced-form-input" placeholder="Title" ref={titleRef} />
+          <input id="title" name="title" className="catalog-advanced-form-input" ref={titleRef} />
         </div>
         <div className="catalog-advanced-form-input-group">
           <label htmlFor="author">Author</label>
-          <input id="author" name="author" className="catalog-advanced-form-input" placeholder="Author" ref={authorRef} />
+          <input id="author" name="author" className="catalog-advanced-form-input" ref={authorRef} />
         </div>
         <div className="catalog-advanced-form-input-group">
           <label htmlFor="description">Description</label>
-          <input id="description" name="description" className="catalog-advanced-form-input" placeholder="Description" ref={descriptionRef} />
+          <input id="description" name="description" className="catalog-advanced-form-input" ref={descriptionRef} />
         </div>
         <div className="catalog-advanced-form-input-group">
           <label htmlFor="subject">Subject</label>
-          <input id="subject" name="subject" className="catalog-advanced-form-input" placeholder="Subject" ref={subjectRef} />
+          <input id="subject" name="subject" className="catalog-advanced-form-input" ref={subjectRef} />
         </div>
         <div className="catalog-advanced-form-input-group">
           <label htmlFor="genre">Genre</label>
-          <input id="genre" name="genre" className="catalog-advanced-form-input" placeholder="Genre" ref={genreRef} />
+          <input id="genre" name="genre" className="catalog-advanced-form-input" ref={genreRef} />
         </div>
       </form>
       <button type="button" className="catalog-advanced-search-button" onClick={search}>Search</button>

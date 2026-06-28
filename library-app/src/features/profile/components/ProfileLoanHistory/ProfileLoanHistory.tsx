@@ -34,11 +34,11 @@ export const ProfileLoanHistory:React.FC = () => {
 
   return (
     <div className="profile-loan-history">
-      <h3 className="profile-loan-header">{user?.firstName}'s Item Loan History:</h3>
+      <h2 className="profile-loan-header">{user?.firstName}'s Item Loan History:</h2>
       {loadingLoanHistory ? (
-        <h2>Loading loan history...</h2>
+        <p>Loading loan history...</p>
       ) : loanHistoryError ? (
-        <h2>Failed to load loan history</h2>
+        <p>Failed to load loan history</p>
       ) : (
         records.map((record) => {
           return (

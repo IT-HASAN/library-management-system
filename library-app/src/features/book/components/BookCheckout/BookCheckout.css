@@ -4,45 +4,63 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 16px;
-  margin-bottom: 32px;
 }
 
 .book-checkout-form {
-  height: 100%;
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: flex-start;
+  align-items: center;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-bottom: 32px;
+}
+
+.book-checkout-title {
+  margin-bottom: 16px;
 }
 
 .book-checkout-form-error {
+  color: var(--form-error-msg);
+}
+
+.checkout-form-input-group {
+  width: 100%;
   margin-bottom: 16px;
-  color: var(--form-error);
 }
 
 .book-checkout-input {
-  height: 2.25rem;
-  width: 80%;
-  font-size: 1.5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 8px;
+  width: 100%;
+  height: 2.5rem;
+  font-size: 1.15rem;
+  padding-top: 2px;
+  padding-left: 8px;
+  background-color: var(--form-input-bg);
+  border: 2px solid var(--form-input-bd);
+  border-radius: 8px;
+}
+
+.book-checkout-input::placeholder {
+  color: var(--form-input-placeholder-txt);
+}
+
+.book-checkout-input:focus {
+  outline: none;
 }
 
 .book-checkout-button {
-  width: 80%;
+  width: 100%;
   height: 2.5rem;
-  font-size: 1.5rem;
-  margin-top: 8px;
-  border-radius: 12px;
   border: none;
-  background-color: var(--secondary);
-  cursor: pointer;
+  background-color: var(--content-btn);
+  border-radius: 8px;
+  font-size: 1.25rem;
+  margin: 16px 0;
 }
 
 .book-checkout-button:hover {
-  border: 2px solid var(--primary);
-  background-color: var(--background-secondary);
+  cursor: pointer;
+  background-color: var(--content-btn-hover);
 }

@@ -24,14 +24,16 @@
   width: 100%;
   font-size: 1.25rem;
   font-weight: 400;
-  background-color: var(--background-primary);
-  border: none;
-  padding: 5px;
+  padding-top: 2px;
+  padding-left: 8px;
+  background-color: var(--form-input-bg);
+  border: 2px solid var(--form-input-bd);
+  border-radius: 8px;
 }
 
 .update-user-input:disabled {
-  color: var(--text-primary);
-  background-color: var(--background-primary);
+  color: var(--form-input-placeholder-txt);
+  background-color: var(--form-input-bg);
 }
 
 .update-user-input:focus {
@@ -44,12 +46,11 @@
   font-size: 1.25rem;
   border-radius: 12px;
   border: none;
-  background-color: var(--secondary);
+  background-color: var(--content-btn);
   margin-top: 16px;
 }
 
 .profile-button:hover {
   cursor: pointer;
-  background-color: var(--background-secondary);
-  border: 2px solid var(--primary);
+  background-color: var(--content-btn-hover);
 }

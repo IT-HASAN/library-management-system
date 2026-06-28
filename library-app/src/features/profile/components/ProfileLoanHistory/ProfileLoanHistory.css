@@ -7,5 +7,5 @@
 .profile-loan-header {
   position: sticky;
   top: 0;
-  background-color: var(--background-secondary);
+  background-color: var(--secondary-bg);
 } 

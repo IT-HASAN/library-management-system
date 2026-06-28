@@ -8,10 +8,16 @@
   height: 10%;
   justify-content: space-between;
   align-items: flex-end;
-  padding: 0 12px;
+}
+
+.catalog-overview-section-more {
+  border: none;
+  border-radius: 12px;
+  background-color: var(--content-btn);
+  padding: 0.5rem 1rem;
 }
 
 .catalog-overview-section-more:hover {
-  text-decoration: underline;
   cursor: pointer;
+  background-color: var(--content-btn-hover);
 }

@@ -20,7 +20,7 @@ export default function CatalogPage() {
     <>
       {loadingCatalog ? (
         <div className="staging-screen">
-          <h2>Loading catalog...</h2>
+          <p>Loading catalog...</p>
         </div>
       ) : (
         <div className="page">

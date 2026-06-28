@@ -27,16 +27,18 @@ export const BookHistoryItem:React.FC<BookHistoryItemProps> = ({record}) => {
 
   return (
     <div className="book-history-item">
-      <h4>Status: <span className={record.status === 'AVAILABLE' ? 'green' : 'red'}>{record.status}</span></h4>
+      <b>Status: <span className={record.status === 'AVAILABLE' ? 'yes' : 'no'}>{record.status}</span></b>
       <div className="book-history-item-group">
         <p>
           <b>Patron:</b> <span style={{
-              cursor: 'pointer',
-              color: 'blue',
-              textDecoration: 'underline'
-            }}
+            cursor: "pointer",
+            color: "#0000ff",
+            textDecoration: "underline"
+          }}
             onClick={visitProfile}
-          >{record.patron}</span>
+          >
+            {record.patron}
+          </span>
         </p>
         <p><b>Loan Date:</b> {formatLoanDate(record.loanedDate)}</p>
         {record.status === 'AVAILABLE' && record.returnedDate && <p><b>Return Date:</b> {formatLoanDate(record.returnedDate)}</p>}

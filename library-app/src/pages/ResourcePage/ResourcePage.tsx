@@ -31,7 +31,7 @@ export default function ResourcePage() {
     {
       bookState.loadingBookBarcode || !bookState.currentBook ? (
         <div className="staging-screen">
-          <h2>Loading resource...</h2>
+          <p>Loading resource...</p>
         </div>
       ) : (
       <div className="page">

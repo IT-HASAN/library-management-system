@@ -17,17 +17,18 @@ export const CatalogOverview:React.FC = () => {
       {
         bookState.loadingCatalog ?
         <div className="staging-screen">
-          <h2>Loading catalog...</h2>
+          <p>Loading catalog...</p>
         </div>
         :
         bookState.catalogError ?
         <div className="staging-screen">
-          <h2>There was a problem loading catalog</h2>
+          <p>There was a problem loading catalog</p>
         </div>
         :
         <div className="catalog-overview">
-          <h2>Welcome to our library, we currently have {bookState.books.length} books.</h2>
-          <h4>Browse our selected books below, or search for something using the top navigation bar.</h4>
+          <h1 className="catalog-heading">Welcome to the library catalog</h1>
+          <p>There are currently {bookState.books.length} books.</p><br />
+          <p>Browse from the selected books below, or find a book using the Search Catalog bar above.</p>
           <br />
           {genres.map((genre) => {
             return <CatalogOverviewSection key={genre} books={getRandomBooksByGenre(genre, bookState.books)} label={genre} />
