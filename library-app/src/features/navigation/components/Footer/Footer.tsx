@@ -3,7 +3,8 @@ import './Footer.css';
 
 export const Footer:React.FC = () => {
   return (
-    <div className="footer">
-    </div>
+    <footer>
+      <p>A MERN stack project app developed by Ishan Hasan</p>
+    </footer>
   )
 }
